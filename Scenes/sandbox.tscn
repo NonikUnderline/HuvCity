@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://xxklj4dysfe4"]
+
+[ext_resource type="Texture2D" uid="uid://cgo7rfl3pw0ad" path="res://icon.svg" id="1_2b6ht"]
+[ext_resource type="PackedScene" uid="uid://d24td5i2dajk3" path="res://Scenes/character.tscn" id="1_d7bho"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2b6ht"]
+size = Vector3(50, 1, 50)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0mvb"]
+albedo_texture = ExtResource("1_2b6ht")
+
+[sub_resource type="BoxMesh" id="BoxMesh_y0mvb"]
+size = Vector3(50, 1, 50)
+
+[node name="Sandbox" type="Node3D" unique_id=912304136]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=472940167]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1922357004]
+shape = SubResource("BoxShape3D_2b6ht")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=1758466978]
+material_override = SubResource("StandardMaterial3D_y0mvb")
+mesh = SubResource("BoxMesh_y0mvb")
+
+[node name="Character" parent="." unique_id=453361365 instance=ExtResource("1_d7bho")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.317107, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2145409938]
+transform = Transform3D(1, 0, 0, 0, 0.47706679, 0.87886703, 0, -0.87886703, 0.47706679, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=264216580]
+transform = Transform3D(1, 0, 0, 0, 0.60386205, 0.79708886, 0, -0.79708886, 0.60386205, 0, 12.372508, 11.829041)

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://d24td5i2dajk3"]
+
+[ext_resource type="Script" uid="uid://2iuk16f2ebgh" path="res://Scripts/character.gd" id="1_lkv7d"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ushfy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_owm7s"]
+size = Vector3(1, 0.5, 2)
+
+[node name="Character" type="CharacterBody3D" unique_id=453361365]
+script = ExtResource("1_lkv7d")
+
+[node name="Coll" type="CollisionShape3D" parent="." unique_id=1948467996]
+shape = SubResource("SphereShape3D_ushfy")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=397225191]
+mesh = SubResource("BoxMesh_owm7s")
