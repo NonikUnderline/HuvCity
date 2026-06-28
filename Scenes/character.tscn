@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://d24td5i2dajk3"]
 
 [ext_resource type="Script" uid="uid://2iuk16f2ebgh" path="res://Scripts/character.gd" id="1_lkv7d"]
-[ext_resource type="PackedScene" uid="uid://cd5unawwimihn" path="res://Models/BottomHeavyBase.fbx" id="2_ushfy"]
+[ext_resource type="PackedScene" uid="uid://q3sar81jh5pp" path="res://Models/BottomHeavyBase.gltf" id="2_ushfy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ushfy"]
+radius = 1.0
 
 [sub_resource type="BoxMesh" id="BoxMesh_owm7s"]
 size = Vector3(1, 0.5, 2)
@@ -11,17 +12,30 @@ size = Vector3(1, 0.5, 2)
 [sub_resource type="PrismMesh" id="PrismMesh_lkv7d"]
 size = Vector3(1, 0.5, 0.5)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ushfy"]
+particle_flag_align_y = true
+direction = Vector3(0, -1, 0)
+spread = 15.0
+initial_velocity_min = 9.0
+initial_velocity_max = 15.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_nytcm"]
+size = Vector3(0.5, 0.5, 0.5)
+
 [node name="Character" type="CharacterBody3D" unique_id=453361365]
 script = ExtResource("1_lkv7d")
 
 [node name="Coll" type="CollisionShape3D" parent="." unique_id=1948467996]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 shape = SubResource("SphereShape3D_ushfy")
 
 [node name="Mesh" type="MeshInstance3D" parent="." unique_id=397225191]
+visible = false
 mesh = SubResource("BoxMesh_owm7s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2012751977]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.2328732)
+visible = false
 mesh = SubResource("PrismMesh_lkv7d")
 
 [node name="Line2D" type="Line2D" parent="." unique_id=1441835194]
@@ -32,5 +46,27 @@ points = PackedVector2Array(0, 0, 94, -86)
 position = Vector2(187, 389)
 points = PackedVector2Array(0, 0, 94, -86)
 
-[node name="BottomHeavyBase" parent="." unique_id=431845597 instance=ExtResource("2_ushfy")]
-transform = Transform3D(0.06991313, 0, 0.9975531, 0, 1, 0, -0.9975531, 0, 0.06991313, 0, 0.20595515, 0)
+[node name="SprayMeter" type="Line2D" parent="." unique_id=60915521]
+position = Vector2(791, 360)
+points = PackedVector2Array(0, 0, 0, -90)
+width = 30.0
+
+[node name="SpeedMeter" type="Line2D" parent="." unique_id=1772010962]
+position = Vector2(875, 360)
+points = PackedVector2Array(0, 0, 0, -90)
+width = 30.0
+default_color = Color(0.22955295, 0.85643035, 0, 1)
+
+[node name="blockbench_export" parent="." unique_id=50941908 instance=ExtResource("2_ushfy")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="EdgeRaycast" type="RayCast3D" parent="." unique_id=596654002]
+target_position = Vector3(0, -2, 0)
+
+[node name="SprayParticles" type="GPUParticles3D" parent="." unique_id=622270701]
+emitting = false
+amount = 25
+lifetime = 0.5
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_ushfy")
+draw_pass_1 = SubResource("BoxMesh_nytcm")

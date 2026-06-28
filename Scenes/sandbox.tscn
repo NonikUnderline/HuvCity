@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cgo7rfl3pw0ad" path="res://icon.svg" id="1_2b6ht"]
 [ext_resource type="PackedScene" uid="uid://d24td5i2dajk3" path="res://Scenes/character.tscn" id="1_d7bho"]
+[ext_resource type="Script" uid="uid://dx76yso5xjgy8" path="res://Scripts/camera.gd" id="3_y0mvb"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2b6ht"]
 size = Vector3(250, 1, 250)
@@ -17,6 +18,12 @@ size = Vector3(5, 2, 5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_s2tkr"]
 size = Vector3(5, 2, 5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s2tkr"]
+size = Vector3(10, 2, 10)
+
+[sub_resource type="BoxMesh" id="BoxMesh_1cu7a"]
+size = Vector3(10, 2, 10)
 
 [node name="Sandbox" type="Node3D" unique_id=912304136]
 
@@ -34,9 +41,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.317107, 0)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2145409938]
 transform = Transform3D(1, 0, 0, 0, 0.47706679, 0.87886703, 0, -0.87886703, 0.47706679, 0, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=264216580]
-transform = Transform3D(1, 0, 0, 0, 0.835136, 0.5500435, 0, -0.5500435, 0.835136, 1.2452397, 9.149571, 10.781525)
 
 [node name="TestObstacles" type="Node3D" parent="." unique_id=1557468175]
 
@@ -81,11 +85,17 @@ material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_s2tkr")
 
 [node name="STBody5" type="StaticBody3D" parent="TestObstacles" unique_id=299830057]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1658688, 0.6850209, -10.236354)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1658688, 1.7515187, -15.733643)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBody5" unique_id=445025833]
-shape = SubResource("BoxShape3D_y0mvb")
+shape = SubResource("BoxShape3D_s2tkr")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBody5" unique_id=2000052583]
 material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_s2tkr")
+mesh = SubResource("BoxMesh_1cu7a")
+
+[node name="CameraGimbal" type="Node3D" parent="." unique_id=197358339]
+script = ExtResource("3_y0mvb")
+
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal" unique_id=264216580]
+transform = Transform3D(1, 0, 0, 0, 0.9520974, 0.30579495, 0, -0.30579495, 0.9520974, 1.2452397, 6.5846405, 9.576578)
