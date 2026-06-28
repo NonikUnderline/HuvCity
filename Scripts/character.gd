@@ -1,27 +1,25 @@
 extends CharacterBody3D
 
 
-@export
-var top_ground_speed : float = 25
-@export
-var jump_force : float = 6
-@export
-var ground_acceleration : float = 4
-@export
-var ground_decelaration : float = 1
-@export
-var skid_decelaration : float = 0.8
-@export
-var air_acceleration : float = 5
-@export
-var ground_turn_degrees : float = 5
+var gnd_speed = 14
+var gnd_acceleration = 0.5
+var gnd_decelaration = 0.4
+var air_speed = 7
+var air_acceleration = 0.1
+var skid_decelaration = 0.8
 
+var jump_force : float = 6
+
+var coyote_time = 20
 
 #Variables for movement
 var input_dir = Vector2.ZERO
 var input_rot = Vector3.ZERO
 var input_cam_dir = Vector2.ZERO
-var forward_speed = 0.0
+var direction = 0.0
+var speed = 0.0
+
+var coyote_timer = coyote_time
 
 #State
 var state = SkateIdle
@@ -31,7 +29,14 @@ var state = SkateIdle
 var delta = 0.0
 
 func SkateIdle():
-	rotation.y = -input_cam_dir.angle()-deg_to_rad(90)
+	if input_dir.length()>0.5:
+		rotation.y = rotation_angle(input_cam_dir.angle())
+	
+	velocity.x = move_toward(velocity.x,0,gnd_decelaration)
+	velocity.z = move_toward(velocity.z,0,gnd_decelaration)
+	
+	if not is_on_floor():
+		state=Jumping
 	
 	if input_dir:
 		state = Skating
@@ -45,71 +50,59 @@ func Skating():
 	if Input.is_action_just_pressed("Jump") and is_on_floor():
 		velocity.y = jump_force
 	
-	# If rotation is too different from where your velocity is taking you
-	# Make the skate slide before having control again
-	var velocity2d = Vector2(velocity.x,velocity.z)
-	if input_dir and velocity:
-		var velocity_angle = ((velocity2d*Vector2(-1,1)).rotated(PI/2).angle())
-		if (abs(angle_difference(rotation.y,velocity_angle)))>1:
-			state = SkateSkid
-			return
+	rotation.y=rotate_toward(rotation.y,rotation_angle(input_cam_dir.angle()),PI/22.5)
+	direction = rotation_angle(rotation.y)
 	
-	#If you rotate to far you loose speed
-	# the input_cam_angle is basically getting input_cam_dir and correcting 
-	# it to be in the same format as rotation.y
-	var input_cam_angle = ((input_cam_dir*Vector2(-1,1)).rotated(PI/2).angle())
-	if abs(angle_difference(rotation.y,input_cam_angle))>1:
-		if forward_speed<0:
-			forward_speed+=ground_decelaration
+	speed = move_toward(speed,-input_rot.y*gnd_speed,gnd_acceleration)
+	velocity.x = cos(direction)*speed
+	velocity.z = sin(direction)*speed
 	
-	# Speed is actually a float before being rotated and applied to
-	# the velocity variable to be computed
-	if abs(forward_speed)<=top_ground_speed:
-		forward_speed -= abs(input_rot.y/ground_acceleration)
-	if !input_dir:
-		forward_speed = move_toward(forward_speed, 0, ground_decelaration)
-	
-	# Rotate through shortest path to where input_cam_dir points
-	# (input_cam_dir being input dir rotated to cameras perspective)
-	rotation.y = rotate_toward(rotation.y,-input_cam_dir.angle()-deg_to_rad(90),deg_to_rad(ground_turn_degrees))
-	
-	# Apply forward_speed in velocity rotated by rotation.y
-	var speed = (transform.basis * Vector3(0, 0, forward_speed))
-	velocity.x = speed.x
-	velocity.z = speed.z
-	
-	if velocity.is_zero_approx():
-		state = SkateIdle
+	if input_dir.length()<0.5:
+		state=SkateIdle
+		speed=0
 
-func SkateSkid():
-	# When sliding you can rotate
-	rotation.y = rotate_toward(rotation.y,-input_cam_dir.angle()-deg_to_rad(90),deg_to_rad(15))
-	
-	# Slide till you stop
+func Skid():
 	velocity.x = move_toward(velocity.x,0,skid_decelaration)
 	velocity.z = move_toward(velocity.z,0,skid_decelaration)
+	speed = move_toward(speed,0,skid_decelaration)
 	
-	if forward_speed<0:
-			forward_speed+=ground_decelaration
+	direction = rotate_toward(direction,rotation_angle(rotation.y),PI/30)
 	
-	# if Speed Zero continue
-	if velocity.is_zero_approx():
-		state = Skating
+	if not is_on_floor():
+		state=Jumping
+	
+	if abs(angle_difference(direction,rotation_angle(rotation.y)))<0.2:
+		state=Skating
+	
+	if !input_dir or velocity.is_zero_approx():
+		state = SkateIdle
 
 func Jumping():
-	# In mid air you can rotate freely
-	rotation.y = rotate_toward(rotation.y,-input_cam_dir.angle()-deg_to_rad(90),deg_to_rad(8))
+	if coyote_timer>0:
+		coyote_timer-=1
+		if Input.is_action_just_pressed("Jump"):
+			velocity.y = jump_force
+			coyote_timer=0
 	
-	# In mid air you can influence a little bit of your velocity
-	if input_cam_dir:
-		velocity += Vector3(input_cam_dir.x,0,input_cam_dir.y)/air_acceleration
+	rotation.y = rotation_angle(input_cam_dir.angle())
 	
 	#gravity
 	velocity += get_gravity() * delta
+	if (Input.is_action_pressed("QuickFall")):
+		velocity += get_gravity() * delta * 3
+	
+	velocity.x = move_toward(velocity.x,input_dir.x*air_speed,air_acceleration)
+	velocity.z = move_toward(velocity.z,input_dir.y*air_speed,air_acceleration)
+	speed = velocity.length()
 	
 	# On floor go back to skating
 	if is_on_floor():
-		state = Skating
+		coyote_timer = coyote_time
+		if abs(angle_difference(direction,rotation_angle(rotation.y)))<1.5:
+			state = Skating
+		else:
+			speed=0
+			state = Skid
 
 func _physics_process(v_delta: float) -> void:
 	# Raw input data
@@ -118,17 +111,19 @@ func _physics_process(v_delta: float) -> void:
 	# Input data rotated for camera 
 	input_cam_dir = input_dir.rotated($"../Camera3D".rotation.y)
 	
-	# Input Rotated inverse of player to get us
-	# a vector going up and giving us left and right data
-	input_rot = input_dir.rotated(rotation.y).rotated($"../Camera3D".rotation.y)
-	#($"../Camera3D".transform.basis * transform.basis.inverse() * Vector3(input_dir.x, 0, input_dir.y))
+	# Input Straight Up with left and right data
+	input_rot = input_cam_dir.rotated(rotation.y)
 	
 	##DEBUG
-	#$Line2D.set_point_position(1,(100*Vector2(cos(rotation.y), sin(rotation.y))))
-	#$Line2D2.set_point_position(1,(100*((velocity2d*Vector2(-1,1)).rotated(PI/2).normalized())))
+	$Line2D.set_point_position(1,(100*Vector2(cos(rotation_angle(rotation.y)),sin(rotation_angle(rotation.y)))))
+	$Line2D2.set_point_position(1,(100*Vector2(cos(direction),sin(direction))))
 	
 	delta = v_delta
 	
 	state.call()
 	
 	move_and_slide()
+
+# Function for converting beetween rotation on the 3D and rotation as vector2 angles
+func rotation_angle(angle : float):
+	return -angle-PI/2

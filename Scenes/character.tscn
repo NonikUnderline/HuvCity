@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://d24td5i2dajk3"]
 
 [ext_resource type="Script" uid="uid://2iuk16f2ebgh" path="res://Scripts/character.gd" id="1_lkv7d"]
+[ext_resource type="PackedScene" uid="uid://cd5unawwimihn" path="res://Models/BottomHeavyBase.fbx" id="2_ushfy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_ushfy"]
 
@@ -30,3 +31,6 @@ points = PackedVector2Array(0, 0, 94, -86)
 [node name="Line2D2" type="Line2D" parent="." unique_id=820724790]
 position = Vector2(187, 389)
 points = PackedVector2Array(0, 0, 94, -86)
+
+[node name="BottomHeavyBase" parent="." unique_id=431845597 instance=ExtResource("2_ushfy")]
+transform = Transform3D(0.06991313, 0, 0.9975531, 0, 1, 0, -0.9975531, 0, 0.06991313, 0, 0.20595515, 0)

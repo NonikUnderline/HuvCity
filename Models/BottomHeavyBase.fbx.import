@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b516qiymimaj"
-path="res://.godot/imported/Huv Base.fbx-6b33e888c7355fb237189284a29c6a1e.scn"
+uid="uid://cd5unawwimihn"
+path="res://.godot/imported/BottomHeavyBase.fbx-1d37957a7760850a5ebed3fc8504c6ad.scn"
 
 [deps]
 
-source_file="res://Models/Huv Base.fbx"
-dest_files=["res://.godot/imported/Huv Base.fbx-6b33e888c7355fb237189284a29c6a1e.scn"]
+source_file="res://Models/BottomHeavyBase.fbx"
+dest_files=["res://.godot/imported/BottomHeavyBase.fbx-1d37957a7760850a5ebed3fc8504c6ad.scn"]
 
 [params]
 
