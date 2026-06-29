@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 	
 	var target_rotation = character.rotation.y
 	
-	rotation.y = rotate_toward(rotation.y, target_rotation, abs(angle_difference(rotation.y,target_rotation)/75))
+	#rotate_y(angle_difference(rotation.y,target_rotation)/90)
 	
 	var cam_mov = Input.get_vector("cam_right", "cam_left", "cam_down", "cam_up")/sensitivity
 	
