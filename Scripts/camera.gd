@@ -12,8 +12,11 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if (character.position-position).length()>0.1:
-		position+=character.position-position
+	position+=character.position-position
+	
+	var target_rotation = character.rotation.y
+	
+	rotation.y = rotate_toward(rotation.y, target_rotation, abs(angle_difference(rotation.y,target_rotation)/75))
 	
 	var cam_mov = Input.get_vector("cam_right", "cam_left", "cam_down", "cam_up")/sensitivity
 	
