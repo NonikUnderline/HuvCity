@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d24td5i2dajk3"]
+
+[ext_resource type="Script" uid="uid://2iuk16f2ebgh" path="res://Scripts/character.gd" id="1_lkv7d"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ushfy"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_owm7s"]
+size = Vector3(1, 0.5, 2)
+
+[sub_resource type="PrismMesh" id="PrismMesh_lkv7d"]
+size = Vector3(1, 0.5, 0.5)
+
+[node name="Character" type="CharacterBody3D" unique_id=453361365]
+script = ExtResource("1_lkv7d")
+
+[node name="Coll" type="CollisionShape3D" parent="." unique_id=1948467996]
+shape = SubResource("SphereShape3D_ushfy")
+
+[node name="Mesh" type="MeshInstance3D" parent="." unique_id=397225191]
+mesh = SubResource("BoxMesh_owm7s")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=2012751977]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, -1.2328732)
+mesh = SubResource("PrismMesh_lkv7d")
+
+[node name="Line2D" type="Line2D" parent="." unique_id=1441835194]
+position = Vector2(186, 190)
+points = PackedVector2Array(0, 0, 94, -86)
+
+[node name="Line2D2" type="Line2D" parent="." unique_id=820724790]
+position = Vector2(187, 389)
+points = PackedVector2Array(0, 0, 94, -86)
