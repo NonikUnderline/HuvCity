@@ -3,15 +3,16 @@
 [ext_resource type="Texture2D" uid="uid://cgo7rfl3pw0ad" path="res://icon.svg" id="1_2b6ht"]
 [ext_resource type="PackedScene" uid="uid://d24td5i2dajk3" path="res://Scenes/character.tscn" id="1_d7bho"]
 [ext_resource type="Script" uid="uid://dx76yso5xjgy8" path="res://Scripts/camera.gd" id="3_y0mvb"]
+[ext_resource type="Texture2D" uid="uid://daw7u2g2wtfwp" path="res://Assets/Graffitis/TestGraf.png" id="4_s2tkr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2b6ht"]
-size = Vector3(250, 1, 250)
+size = Vector3(500, 1, 500)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0mvb"]
 albedo_texture = ExtResource("1_2b6ht")
 
 [sub_resource type="BoxMesh" id="BoxMesh_y0mvb"]
-size = Vector3(50, 1, 50)
+size = Vector3(500, 1, 500)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_y0mvb"]
 size = Vector3(10, 2, 5)
@@ -48,6 +49,12 @@ size = Vector3(2, 30, 30)
 
 [sub_resource type="BoxMesh" id="BoxMesh_6yop6"]
 size = Vector3(2, 30, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6yop6"]
+size = Vector3(10, 2, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_s5h6m"]
+size = Vector3(10, 2, 30)
 
 [node name="Sandbox" type="Node3D" unique_id=912304136]
 
@@ -202,18 +209,6 @@ transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 
 material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_j2wlq")
 
-[node name="STBodySquare12" type="StaticBody3D" parent="TestObstacles" unique_id=1818081979]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 1, 15.873556, 49.77505, 24.937902)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare12" unique_id=328671392]
-transform = Transform3D(1.0000002, 0, 0, 0, 1, -5.70436e-09, 0, -1.3154931e-08, 1.0000002, -0.19077301, 3.2162094, 0.32901764)
-shape = SubResource("BoxShape3D_j2wlq")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare12" unique_id=294053266]
-transform = Transform3D(1.0000002, 0, 0, 0, 1, -5.7043508e-09, 0, -1.3154931e-08, 1.0000002, -0.19077301, 3.2162113, 0.32901764)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_6yop6")
-
 [node name="STBodySquare13" type="StaticBody3D" parent="TestObstacles" unique_id=1527103928]
 transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 25.412876, 41.718586, 48.173824)
 
@@ -249,7 +244,7 @@ material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_j2wlq")
 
 [node name="STBodySquare16" type="StaticBody3D" parent="TestObstacles" unique_id=729010490]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -22.335968, 9.713211, 12.095529)
+transform = Transform3D(-0.010995329, 0.99993956, -4.3708745e-08, 0, -4.371139e-08, -1, -0.99993956, -0.010995329, 4.806211e-10, 20.280567, 42.42428, 26.435665)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare16" unique_id=1676090484]
 shape = SubResource("BoxShape3D_1cu7a")
@@ -258,8 +253,44 @@ shape = SubResource("BoxShape3D_1cu7a")
 material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_koc8j")
 
+[node name="STBodySquare17" type="StaticBody3D" parent="TestObstacles" unique_id=614275703]
+transform = Transform3D(0.70710677, -0.7071068, 0, 0.70710677, 0.7071068, 0, 0, 0, 1.0000001, -21.308788, 5.766449, -1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare17" unique_id=986070281]
+shape = SubResource("BoxShape3D_j2wlq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare17" unique_id=2111428338]
+material_override = SubResource("StandardMaterial3D_y0mvb")
+mesh = SubResource("BoxMesh_6yop6")
+
+[node name="STBodySquare18" type="StaticBody3D" parent="TestObstacles" unique_id=1905624844]
+transform = Transform3D(0.96592575, -0.258819, 0, 0.258819, 0.96592575, 0, 0, 0, 1.0000001, -31.956242, 16.488972, -1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare18" unique_id=791153066]
+shape = SubResource("BoxShape3D_j2wlq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare18" unique_id=486914734]
+material_override = SubResource("StandardMaterial3D_y0mvb")
+mesh = SubResource("BoxMesh_6yop6")
+
+[node name="STBodySquare12" type="StaticBody3D" parent="TestObstacles" unique_id=1644620060]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -39.682426, 30.928291, 0.8208313)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare12" unique_id=2083436138]
+shape = SubResource("BoxShape3D_6yop6")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare12" unique_id=894163133]
+material_override = SubResource("StandardMaterial3D_y0mvb")
+mesh = SubResource("BoxMesh_s5h6m")
+
 [node name="CameraGimbal" type="Node3D" parent="." unique_id=197358339]
 script = ExtResource("3_y0mvb")
 
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal" unique_id=264216580]
 transform = Transform3D(1, 0, 0, 0, 0.9520974, 0.30579495, 0, -0.30579495, 0.9520974, 1.2452397, 6.5846405, 9.576578)
+
+[node name="Graffiti" type="Decal" parent="." unique_id=1684140470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5351176, -10.258947)
+size = Vector3(5, 5, 5)
+texture_albedo = ExtResource("4_s2tkr")
+cull_mask = 1048573

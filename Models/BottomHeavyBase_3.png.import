@@ -2,20 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rrwhpa46v2t8"
-path.s3tc="res://.godot/imported/BottomHeavyBase_1.png-3d3ffe3870cac0a159d16042869ca3cc.s3tc.ctex"
+uid="uid://dl3ugiqt4so2s"
+path.s3tc="res://.godot/imported/BottomHeavyBase_3.png-200c41b49703e6f5172adc529adf0a91.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "2c8761368230acdb495e12d9ce760ba9"
+"md5": "2b9e659ac2a7c3f359d7a1d8ca22b1cf"
 }
 
 [deps]
 
-source_file="res://Models/BottomHeavyBase_1.png"
-dest_files=["res://.godot/imported/BottomHeavyBase_1.png-3d3ffe3870cac0a159d16042869ca3cc.s3tc.ctex"]
+source_file="res://Models/BottomHeavyBase_3.png"
+dest_files=["res://.godot/imported/BottomHeavyBase_3.png-200c41b49703e6f5172adc529adf0a91.s3tc.ctex"]
 
 [params]
 

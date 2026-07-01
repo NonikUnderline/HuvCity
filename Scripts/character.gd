@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 var gnd_speed = 14
 var gnd_acceleration = 0.5
-var gnd_decelaration = 0.4
+var gnd_decelaration = 0.5
 var gnd_speed_cap_deceleration = 0.2
 var gnd_crouched_deceleration = 0.05
 #var gnd_rotation_speed = deg_to_rad(7)
@@ -19,7 +19,7 @@ var jump_force : float = 7
 
 var coyote_time = 20
 
-var spray_air_speed = 9
+var spray_air_speed = 3
 var spray_gnd_speed = 0.5
 var turn_deg_penalty = 0.01
 
@@ -56,7 +56,7 @@ var SprayParticles = $SprayParticles
 @onready
 var Camera = $"../CameraGimbal"
 @onready
-var AnimPlayer = $blockbench_export/AnimationPlayer
+var AnimPlayer = $BottomHeavyBase/AnimationPlayer
 
 func set_state(new_state):
 	if previous_state!=null:
@@ -70,8 +70,6 @@ func _enter_state(new_state, old_state):
 		#land
 		SkateIdle:
 			AnimPlayer.play("Idle",1)
-			speed=0
-			velocity=Vector3(0,0,0)
 		
 		Skating:
 			if old_state == SkateIdle or old_state == Skid:
@@ -86,13 +84,14 @@ func _enter_state(new_state, old_state):
 			AnimPlayer.play("SkidLand")
 		
 		SprayBoost:
+			$Graffiti/Timer.stop()
 			SprayParticles.process_material.direction = Vector3(0,0.5,1)
 			AnimPlayer.play("SprayBoost")
 		
 		#wall
 		WallRunUp:
+			velocity.y = speed - (velocity*Vector3(1,0,1)).length()
 			AnimPlayer.play("WallRunUp")
-			velocity.y = speed - velocity.length()
 		
 		FrontLedgeGetUp:
 			AnimPlayer.play("LedgeGetUp")
@@ -100,6 +99,7 @@ func _enter_state(new_state, old_state):
 		
 		#midair
 		AirSprayBoost:
+			$Graffiti/Timer.stop()
 			direction = input_cam_dir.angle()
 			rotation.y = rotation_angle(direction)
 			speed+=spray_air_speed
@@ -111,6 +111,7 @@ func _enter_state(new_state, old_state):
 			spray_charge-=1
 		
 		HuvIt:
+			$Graffiti/Timer.stop()
 			velocity.y = jump_force*1.5
 			AnimPlayer.play("HuvIt")
 			SprayParticles.process_material.direction = Vector3(0,-1,0)
@@ -121,9 +122,13 @@ func _enter_state(new_state, old_state):
 			coyote_timer = 0
 			AnimPlayer.play("Jump")
 			
-			velocity.y = jump_force
+			print(Time.get_ticks_msec())
+			
+			#velocity.y = jump_force
+			velocity += (transform.basis * Vector3(0,jump_force,0))
 			if old_state == SkatingCrouched:
-				velocity.y += jump_force/2
+				velocity += (transform.basis * Vector3(0,jump_force/2,0))
+				#velocity.y += jump_force/2
 		
 		FastFall:
 			AnimPlayer.play("FastFall",0)
@@ -135,26 +140,47 @@ func _exit_state(old_state,new_state):
 		Falling:
 			if new_state == Skating:
 				AnimPlayer.play("Land")
+				speed = (velocity*Vector3(1,0,1)).length()
 		FastFall:
 			if new_state == Skating:
 				AnimPlayer.play("Land")
+				speed = (velocity*Vector3(1,0,1)).length()
 		SprayBoost:
 			if new_state == Skating:
 				AnimPlayer.play("Land")
+				speed = (velocity*Vector3(1,0,1)).length()
 		WallRunUp:
 			if new_state == Skating:
 				AnimPlayer.play("Land")
+				speed = (velocity*Vector3(1,0,1)).length()
 			if new_state == Falling:
 				AnimPlayer.play_backwards("WallRunUp")
 		FrontLedgeGetUp:
 			if new_state == Skating:
 				AnimPlayer.play("Land")
+				speed = (velocity*Vector3(1,0,1)).length()
 		SkatingCrouched:
 			AnimPlayer.play_backwards("Crouch")
 		
 
+func Graffitate(_wall_normal = null):
+	if !$Graffiti/Ray.is_colliding():
+		return
+	
+	var graffitate = $Graffiti/Art.duplicate()
+	$"../".add_child(graffitate)
+	
+	graffitate.visible = true
+	graffitate.position = $Graffiti/Ray.get_collision_point()
+	if $Graffiti/Ray.get_collision_normal() != Vector3.UP:
+		graffitate.look_at(graffitate.position+$Graffiti/Ray.get_collision_normal(),Vector3.UP)
+		graffitate.rotate_object_local(Vector3(1,0,0),PI/2)
+	
+	graffitate.rotation.y = randf()*2*PI
 
 func SkateIdle():
+	Grounded()
+	
 	#recharge Spray
 	if spray_charge<2:
 		spray_charge += 0.03
@@ -168,24 +194,37 @@ func SkateIdle():
 	if not is_on_floor():
 		state = Falling
 	
-	if Input.is_action_just_pressed("jump"):
-		state = SkateJumping
-	
 	if input_dir:
+		speed = 0
 		state = Skating
 
-func Skating():
+func Grounded():
+	var floor_rotation_x = (Vector2(get_floor_normal().x,get_floor_normal().y).angle()-PI/2)
+	var floor_rotation_z = (Vector2(get_floor_normal().z,get_floor_normal().y).angle()-PI/2)
+	
+	rotation.x += (floor_rotation_z - rotation.x)/4
+	rotation.z += (floor_rotation_x - rotation.z)/4
+	
+	
+	#rotation.x
+	
+	floor_snap_length=0.5
+	
+	#jump
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		state = SkateJumping
+	
 	# On Air go to jumping
 	if not is_on_floor():
 		state = Falling
 	
-	# Jump
-	if Input.is_action_just_pressed("jump") and is_on_floor():
-		state = SkateJumping
+	#Ground SprayBoosting
+	if Input.is_action_just_pressed("spray_boost") and spray_charge>0 and !spray_overheat:
+		state = SprayBoost
 	
-	#Skate Crouched
-	if Input.is_action_pressed("fast_fall"):
-			state = SkatingCrouched
+
+func Skating():
+	Grounded()
 	
 	#recharge Spray
 	if spray_charge<2:
@@ -207,26 +246,34 @@ func Skating():
 		speed = move_toward(speed,-input_rot.y*gnd_speed,gnd_speed_cap_deceleration)
 	velocity.x = cos(direction)*(speed)
 	velocity.z = sin(direction)*(speed)
-
-	#Ground SprayBoosting
-	if Input.is_action_pressed("spray_boost") and spray_charge>0 and !spray_overheat:
-		state = SprayBoost
+	
+	#Skate Crouched
+	if Input.is_action_pressed("fast_fall"):
+			state = SkatingCrouched
 	
 	#Stop Skating
 	if input_dir.length()<0.5:
 		state = SkateIdle
 
 func SprayBoost():
+	Grounded()
+	
+	$Graffiti/Ray.target_position=Vector3(0,-3,0)
+	if $Graffiti/Timer.is_stopped():
+		Graffitate()
+		if speed>0:
+			$Graffiti/Timer.wait_time = 2/speed
+			$Graffiti/Timer.start()
 	#Rotation
 	direction = rotate_toward(direction,input_cam_dir.angle(),deg_to_rad(25))
-	rotation.y=rotation_angle(direction)
+	rotation.y = rotation_angle(direction)
 	
 	#Directional Speed
 	velocity.x = cos(direction)*(speed)
 	velocity.z = sin(direction)*(speed)
 	
-	speed+=spray_gnd_speed
-	spray_charge-=0.05
+	speed += (30-speed)/15
+	spray_charge-=0.01
 	SprayParticles.emitting = true
 	
 	if Input.is_action_just_released("spray_boost") or spray_charge < 0:
@@ -234,6 +281,8 @@ func SprayBoost():
 		state = Skating
 
 func SkatingCrouched():
+	Grounded()
+	
 	#Rotation
 	rotation.y=rotate_toward(rotation.y,rotation_angle(input_cam_dir.angle()),(PI/speed))
 	
@@ -252,15 +301,13 @@ func SkatingCrouched():
 	if spray_charge<2:
 		spray_charge += 0.06
 	
-	if Input.is_action_just_pressed("jump"):
-		state = SkateJumping
 	
 	if Input.is_action_just_released("fast_fall"):
 		state = Skating
 
 func Skid():
 	#velocity go to zero
-	if !$Rays/Edge.is_colliding():
+	if !$Rays/GroundBelow.is_colliding():
 		velocity.x = 0
 		velocity.z = 0
 	velocity.x = move_toward(velocity.x,0,skid_decelaration)
@@ -275,7 +322,7 @@ func Skid():
 	
 	#if direction and rotation align go to skating
 	if abs(angle_difference(direction,rotation_angle(rotation.y)))<out_of_skid_rad_threshold:
-		speed=0
+		speed = 0
 		state = Skating
 	
 	if !input_dir or is_zero_approx(speed):
@@ -299,43 +346,36 @@ func Skid():
 func WallRunUp():
 	velocity += get_gravity() * delta
 	
-	var wall_normal = Vector2(get_wall_normal().z,get_wall_normal().x).angle()+PI/2
+	var wall_angle = Vector2(get_wall_normal().z,get_wall_normal().x).angle()
+	
+	$Graffiti/Ray.target_position = get_wall_normal()*-3
 	
 	velocity.x = cos(direction)*(4)
 	velocity.z = sin(direction)*(4)
 	if is_on_wall():
-		print(wall_normal)
-		rotation.y = rotation_angle(-wall_normal)
-		
+		rotation.y = wall_angle
 	
 	#to Huv It
 	if Input.is_action_just_pressed("spray_boost") and spray_charge>=1 and !spray_overheat:
+		$Graffiti/Ray.target_position=get_wall_normal()*-3
+		Graffitate()
 		state = HuvIt
 	
 	#To Wall Jump
 	if Input.is_action_just_pressed("jump") and is_on_wall():
 		state = SkateJumping
-		velocity.x = cos(-direction)*(speed/2)
-		velocity.z = sin(-direction)*(speed/2)
+		velocity.x = cos(rotation_angle(wall_angle))*(speed/-2)
+		velocity.z = sin(rotation_angle(wall_angle))*(speed/-2)
 	
 	##To Ledge Get Up
 	if is_on_wall() and !$Rays/Ledge.is_colliding():
 		state = FrontLedgeGetUp
-		#state = Skating
-		#velocity.y=0
-		#velocity.x = cos(-wall_normal)*(speed)
-		#velocity.z = sin(-wall_normal)*(speed)
-		#var point_to_snap = Vector2(1.5,0).rotated(rotation_angle(rotation.y))
-		#position+=Vector3(point_to_snap.x,4,point_to_snap.y)
-		#floor_snap_length=5
-		#apply_floor_snap()
-		#floor_snap_length=0.1
 	
 	#To falldown
-	if velocity.y<=0:
-		speed=0
-		velocity.x=0
-		velocity.z=0
+	if velocity.y<=0 or is_on_ceiling():
+		speed = 0
+		velocity.x = 0
+		velocity.z = 0
 		state = Falling
 
 func FrontLedgeGetUp():
@@ -364,6 +404,12 @@ func FrontLedgeGetUp():
 #Air
 
 func AirSprayBoost():
+	$Graffiti/Ray.target_position=Vector3(0,-5,5)
+	if $Graffiti/Timer.is_stopped():
+		Graffitate()
+		if speed>0: 
+			$Graffiti/Timer.wait_time = 2/speed
+			$Graffiti/Timer.start()
 	#Rotation
 	direction = rotate_toward(direction,input_cam_dir.angle(),deg_to_rad(2))
 	rotation.y=rotation_angle(direction)
@@ -380,6 +426,12 @@ func AirSprayBoost():
 		state = Falling
 
 func HuvIt():
+	$Graffiti/Ray.target_position=Vector3(0,-5,5)
+	if $Graffiti/Timer.is_stopped():
+		Graffitate()
+		if speed>0:
+			$Graffiti/Timer.wait_time = 2/speed
+			$Graffiti/Timer.start()
 	##gravity
 	#velocity += get_gravity() * delta
 	#
@@ -398,10 +450,10 @@ func HuvIt():
 	#if !SprayParticles.emitting:
 		#state = Falling
 
+#when in midair a lot of code overlaps so its abstracted here in midair
 func MidAir():
-	velocity += get_gravity() * delta
-	
-	velocity_towards_input(air_speed,air_acceleration)
+	#rotation.x += (0 - rotation.x)/8
+	#rotation.z += (0 - rotation.z)/8
 	
 	#to Huv It
 	if Input.is_action_just_pressed("jump") and spray_charge>=1 and !spray_overheat:
@@ -417,14 +469,17 @@ func MidAir():
 	if (Input.is_action_just_pressed("fast_fall")):
 		state = FastFall
 	
-	# to falling
-	if velocity.y<=0 and !(Input.is_action_pressed("fast_fall")):
-		state = Falling
+	## to falling
+	#if velocity.y<=0 and !(Input.is_action_pressed("fast_fall")):
+		#state = Falling
 	
+	# to WallRunUp
 	var wall_angle = Vector2(get_wall_normal().x,get_wall_normal().z).angle()
-	var velocity2d = Vector2(velocity.x,velocity.z)
-	if is_on_wall() and velocity.length()<speed: 
+	
+	if is_on_wall() and (velocity*Vector3(1,1,1)).length()<speed:
+		#print(speed)
 		if abs(angle_difference(rotation_angle(rotation.y),wall_angle))>deg_to_rad(150):
+			#print(velocity.y)
 			state = WallRunUp
 			return
 		#else:
@@ -439,49 +494,26 @@ func MidAir():
 		else:
 			state = Skid
 	
+	velocity += get_gravity() * delta * transform.basis
+	
+	velocity_towards_input(air_speed,air_acceleration)
 
 func SkateJumping():
 	rotation.y = rotate_toward(rotation.y,rotation_angle(input_cam_dir.angle()),deg_to_rad(3))
 	
-	MidAir()
+	#to Falling
+	if velocity.y<=0:
+		state = Falling
 	
-	#velocity += get_gravity() * delta
-	#
-	#velocity_towards_input(air_speed,air_acceleration)
-	#
-	##to Huv It
-	#if Input.is_action_just_pressed("jump") and spray_charge>=1 and !spray_overheat:
-		#state = HuvIt
-	#
-	##to Spray Boost
-	#if Input.is_action_just_pressed("spray_boost") and spray_charge>=1 and !spray_overheat:
-		#state = AirSprayBoost
-	#
-	##to fast fall
-	#if (Input.is_action_pressed("fast_fall")):
-		#state = FastFall
-	#
-	##to Falling
-	#if velocity.y<=0:
-		#state = Falling
+	MidAir()
 
 func FastFall():
 	velocity += get_gravity() * delta * 4
 	
+	if (Input.is_action_just_released("fast_fall")):
+		state = Falling
+	
 	MidAir()
-	#velocity_towards_input(air_speed,air_acceleration)
-	#
-	##to Spray Boost
-	#if Input.is_action_just_pressed("spray_boost") and spray_charge>=1 and !spray_overheat:
-		#state = AirSprayBoost
-	#
-	##stop fast falling
-	#if (Input.is_action_just_released("fast_fall")):
-		#state = Falling
-	#
-	##to skating
-	#if is_on_floor():
-		#state = Skating
 
 func Falling():
 	#Jump if Coyote Time
@@ -491,52 +523,27 @@ func Falling():
 			state = SkateJumping
 			return
 	
-	velocity += get_gravity() * delta/2
+	#Heavier When Falling
+	velocity += get_gravity() * delta * transform.basis/2
 	
 	#Rotate to input
 	#rotation.y = rotation_angle(input_cam_dir.angle())
 	rotation.y = rotate_toward(rotation.y,rotation_angle(input_cam_dir.angle()),air_rotation_speed)
 	
 	MidAir()
-	
-	#gravity
-	#velocity += get_gravity() * delta
-	#
-	#velocity_towards_input(air_speed,air_acceleration)
-	#
-	## Huv It
-	#if Input.is_action_just_pressed("jump") and spray_charge>=1 and !spray_overheat:
-		#state = HuvIt
-	#
-	##Spray Boost
-	#if Input.is_action_just_pressed("spray_boost") and spray_charge>=1 and !spray_overheat:
-		#state = AirSprayBoost
-	#
-	##to Fast Fall
-	#if (Input.is_action_pressed("fast_fall")):
-		#state = FastFall
-	#
-	##To Skating or Skidding
-	#if is_on_floor():
-		#coyote_timer = coyote_time
-		## On floor go back to skating or to skid if you're not rotated correctly
-		#if abs(angle_difference(direction,rotation_angle(rotation.y)))<to_skid_rad_threshold:
-			#state = Skating
-		#else:
-			#state = Skid
 
-func velocity_towards_input(speed, acceleration):
+func velocity_towards_input(_speed, acceleration):
 	var velocity2d = Vector2(velocity.x,velocity.z)
 	
 	# Little movement Falling
 	if abs(input_cam_dir.angle()-velocity2d.angle())>0.2:
 		velocity.x = move_toward(velocity.x,input_cam_dir.x*speed,acceleration)
 		velocity.z = move_toward(velocity.z,input_cam_dir.y*speed,acceleration)
-	speed = velocity.length()
+	
 
 func _physics_process(v_delta: float) -> void:
 	if (has_node("SprayParticles")):
-		$SprayParticles.reparent($blockbench_export/Character/Body2/RShoulder/RArm/ElbowPads/RLowerArm/Hand2/Hand,false)
+		$SprayParticles.reparent($BottomHeavyBase/Character/Body2/RShoulder/RArm/ElbowPads/RLowerArm/Hand2/Hand,false)
 	
 	# Raw input data
 	input_dir = Input.get_vector("left", "right", "up", "down")
@@ -548,13 +555,13 @@ func _physics_process(v_delta: float) -> void:
 	input_rot = input_cam_dir.rotated(rotation.y)
 	
 	#speedometer
-	$SpeedMeter.set_point_position(1,Vector2(0,-speed*3))
+	$UI/SpeedMeter.set_point_position(1,Vector2(0,-speed*3))
 	#spray meter and overheat
-	$SprayMeter.set_point_position(1,Vector2(0,-spray_charge*55))
+	$UI/SprayMeter.set_point_position(1,Vector2(0,-spray_charge*55))
 	if spray_overheat:
-		$SprayMeter.default_color = Color(1,0,0)
+		$UI/SprayMeter.default_color = Color(1,0,0)
 	else:
-		$SprayMeter.default_color = Color(0.5,0.5,1)
+		$UI/SprayMeter.default_color = Color(0.5,0.5,1)
 	
 	if spray_charge<= 0.05:
 		spray_overheat=true
@@ -562,16 +569,16 @@ func _physics_process(v_delta: float) -> void:
 		spray_overheat=false
 	
 	##DEBUG
-	$Debug/Line2D.set_point_position(1,(100*Vector2(cos(direction),sin(direction)).rotated(PI/2)))
-	#$Debug/Line2D2.set_point_position(1,(100*Vector2(cos(wall_angle),sin(wall_angle))))
+	$UI/Debug/Line2D.set_point_position(1,(100*Vector2(cos(direction),sin(direction)).rotated(PI/2)))
+	#$UI/Debug/Line2D2.set_point_position(1,(100*Vector2(cos(wall_angle),sin(wall_angle))))
 	
 	delta = v_delta
 	
-	if speed<0: speed=0
+	if speed<0: speed = 0
 	
 	state.call()
 	
-	$Debug/State.text = str(state) + "\n" + str(previous_state)
+	$UI/Debug/State.text = str(state) + "\n" + str(previous_state)
 	
 	move_and_slide()
 
