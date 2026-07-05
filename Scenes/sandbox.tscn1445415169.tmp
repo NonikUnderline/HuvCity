@@ -245,8 +245,7 @@ material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_koc8j")
 
 [node name="HalfPipe" type="Node3D" parent="TestObstacles" unique_id=1832890016]
-transform = Transform3D(0.70710665, 0, -0.70710665, 0, 1, 0, 0.70710665, 0, 0.70710665, -13.5279255, 0, -30.609394)
-rotation_order = 1
+transform = Transform3D(0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, 0.70710677, -13.5279255, 0, -30.609394)
 
 [node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=763997733]
 transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
@@ -280,8 +279,19 @@ transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_3aevr")
 
+[node name="HalfPipe4" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=1092838521]
+transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, -40.24839, 3.335198, -2.8111534)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipe4" unique_id=1232776304]
+shape = SubResource("BoxShape3D_s5h6m")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe/HalfPipe4" unique_id=899745306]
+transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_y0mvb")
+mesh = SubResource("BoxMesh_3aevr")
+
 [node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=58553889]
-transform = Transform3D(0.99999994, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.9999999, -4.3711385e-08, 0, 8.446268, -3.9556847)
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 6.380152, -3.9556847)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipe3" unique_id=50574886]
 shape = SubResource("BoxShape3D_s5h6m")
@@ -301,53 +311,6 @@ shape = SubResource("BoxShape3D_y0mvb")
 material_override = SubResource("StandardMaterial3D_y0mvb")
 mesh = SubResource("BoxMesh_s2tkr")
 
-[node name="HalfPipe2" type="Node3D" parent="TestObstacles" unique_id=1666237429]
-transform = Transform3D(0, 0, -0.9999997, 0, 1, 0, 0.9999997, 0, 0, -28.233204, 0, -66.6317)
-rotation_order = 1
-
-[node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=1446519358]
-transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe" unique_id=809732320]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe" unique_id=157678797]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipeMiddle" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=891321281]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 1.4755874, -0.8098717)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipeMiddle" unique_id=261209154]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipeMiddle" unique_id=1831369118]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe2" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=549190215]
-transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, 0, 3.335198, -2.8111534)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe2" unique_id=1494494867]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe2" unique_id=625407774]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=1490174040]
-transform = Transform3D(0.99999994, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.9999999, -4.3711385e-08, 0, 8.446268, -3.9556847)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe3" unique_id=1672274136]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe3" unique_id=1275746996]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
 [node name="CameraGimbal" type="Node3D" parent="." unique_id=197358339]
 script = ExtResource("3_y0mvb")
 
@@ -361,4 +324,4 @@ texture_albedo = ExtResource("4_s2tkr")
 cull_mask = 1048573
 
 [node name="Character" parent="." unique_id=12753772 instance=ExtResource("4_1cu7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3922005, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95208263, 0)

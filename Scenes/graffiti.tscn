@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://bf6gwxr3iy6yd"]
+
+[ext_resource type="Script" uid="uid://pin1de8nesf8" path="res://scripts/graffiti.gd" id="1_epgbh"]
+[ext_resource type="Texture2D" uid="uid://daw7u2g2wtfwp" path="res://Assets/Graffitis/TestGraf.png" id="2_pjppr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_owm7s"]
+size = Vector3(3, 2, 3)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_epgbh"]
+angle_min = -720.0
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 50.0
+initial_velocity_min = 7.0
+initial_velocity_max = 9.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+gravity = Vector3(0, -12, 0)
+
+[sub_resource type="PrismMesh" id="PrismMesh_pjppr"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_epgbh"]
+radius = 3.0
+
+[node name="Graffiti" type="Node3D" unique_id=661340901]
+script = ExtResource("1_epgbh")
+
+[node name="OtherGraffiti" type="Area3D" parent="." unique_id=1535627050]
+input_ray_pickable = false
+
+[node name="Coll" type="CollisionShape3D" parent="OtherGraffiti" unique_id=833963034]
+shape = SubResource("BoxShape3D_owm7s")
+
+[node name="Art" type="Decal" parent="." unique_id=380319419]
+rotation_order = 0
+size = Vector3(5, 2, 5)
+texture_albedo = ExtResource("2_pjppr")
+cull_mask = 1048573
+
+[node name="Timer" type="Timer" parent="." unique_id=1769309503]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." unique_id=537575686]
+emitting = false
+amount = 200
+lifetime = 0.7
+one_shot = true
+speed_scale = 2.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_epgbh")
+draw_pass_1 = SubResource("PrismMesh_pjppr")
+
+[node name="HurtBox" type="Area3D" parent="." unique_id=716330566]
+collision_mask = 2
+
+[node name="Coll" type="CollisionShape3D" parent="HurtBox" unique_id=1675657014]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0093834, 0)
+shape = SubResource("SphereShape3D_epgbh")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
