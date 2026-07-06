@@ -50,7 +50,7 @@ var GroundRay = $Rays/Ground
 var Coll = $Colls/CustomColl
 var CollOffset := Vector3(0,0,0)
 @onready
-var Anim = $CharacterNew/AnimationPlayer
+var Anim = $Character/AnimationTree
 @export
 var paint_weapon : PaintWeapon
 
@@ -64,7 +64,7 @@ func set_state(new_state):
 func _enter_state(new_state, old_state):
 	match new_state:
 		"Jumping":
-			Anim.play("Jump")
+			Anim.set("parameters/conditions/Jump", true)
 			
 			velocity.y = jump_velocity
 			
@@ -72,13 +72,17 @@ func _enter_state(new_state, old_state):
 			state = "Falling"
 		"Skating":
 			if old_state == "Falling":
-				Anim.play("Land")
+				Anim.set("parameters/conditions/Jump", false)
+			else:
+				Anim.set("parameters/conditions/Moving", true)
 				
 			if is_on_ground() and is_on_ground()[0].rotation!=Vector3.ZERO:
 				speed += abs(velocity.y/18)
 		"Falling":
 			if GroundRay.get_collision_normal()!=Vector3.ZERO:
 				velocity.y += abs(speed/18)
+		"SkateIdle":
+			Anim.set("parameters/conditions/Moving", false)
 
 func _init() -> void:
 	motion_mode = MOTION_MODE_FLOATING
@@ -87,6 +91,7 @@ func _init() -> void:
 func _exit_state(old_state,new_state):
 	match old_state:
 		pass
+			
 
 func SkateIdle():
 	universal_rotation()
@@ -129,7 +134,10 @@ func Skating():
 	
 	##Half States
 	if Input.is_action_pressed("spray_boost"):
+		Anim.set("parameters/conditions/GroundUse", true)
 		paint_weapon.GroundUse()
+	else:
+		Anim.set("parameters/conditions/GroundUse", false)
 	
 	##Change States
 	if not GroundRay.is_colliding() or direction_x.dot(Quaternion.IDENTITY) < 0.8:

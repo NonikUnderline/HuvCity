@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dywjt18c3h15v"
-path.s3tc="res://.godot/imported/BottomHeavyBase_4.png-a282e466a20f097b9ead0c295e37ceef.s3tc.ctex"
+uid="uid://b7l5wuymjfvh3"
+path.s3tc="res://.godot/imported/CharacterBase_2.png-ba0aaf4edc6fdc5b09e8b31d928ecbb8.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://Models/BottomHeavyBase_4.png"
-dest_files=["res://.godot/imported/BottomHeavyBase_4.png-a282e466a20f097b9ead0c295e37ceef.s3tc.ctex"]
+source_file="res://Models/CharacterNew/CharacterBase_2.png"
+dest_files=["res://.godot/imported/CharacterBase_2.png-ba0aaf4edc6fdc5b09e8b31d928ecbb8.s3tc.ctex"]
 
 [params]
 

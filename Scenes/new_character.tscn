@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cxskqx5kxu5uk"]
 
-[ext_resource type="PackedScene" uid="uid://wem0cxfgfv05" path="res://Models/CharacterNew/CharacterNew.tscn" id="1_84gn2"]
+[ext_resource type="PackedScene" uid="uid://csmavoqn4d5en" path="res://Models/CharacterNew/CharacterNew.tscn" id="1_84gn2"]
 [ext_resource type="Script" uid="uid://bggor0ai4hefs" path="res://Scripts/new_character.gd" id="1_dmuln"]
 [ext_resource type="PackedScene" uid="uid://b885dwdse2u0j" path="res://Scenes/Weapons/spray_boost.tscn" id="3_v88sr"]
 
@@ -14,9 +14,6 @@ paint_weapon = NodePath("Equipment/SprayBoost")
 
 [node name="Coll" type="CollisionShape3D" parent="." unique_id=625499122]
 shape = SubResource("SphereShape3D_dmuln")
-
-[node name="CharacterNew" parent="." unique_id=1110717160 instance=ExtResource("1_84gn2")]
-transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, -0.839, 0)
 
 [node name="Rays" type="Node3D" parent="." unique_id=984835625]
 
@@ -44,3 +41,6 @@ offset_left = 65.0
 offset_top = 43.0
 offset_right = 105.0
 offset_bottom = 66.0
+
+[node name="Character" parent="." unique_id=1284234206 instance=ExtResource("1_84gn2")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
