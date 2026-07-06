@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://b885dwdse2u0j"]
+
+[ext_resource type="PackedScene" uid="uid://cddfhv42pc556" path="res://Models/SprayBoost/SprayBoost.gltf" id="1_rs35c"]
+[ext_resource type="Script" uid="uid://dha1o7hj6qb1x" path="res://Scenes/Weapons/spray_boost.gd" id="2_avcix"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_avcix"]
+radius = 1.1666658
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_avcix"]
+direction = Vector3(0, 0.5, -1)
+spread = 36.936
+initial_velocity_min = 7.0
+initial_velocity_max = 9.0
+gravity = Vector3(0, -12, 0)
+
+[sub_resource type="PrismMesh" id="PrismMesh_jvdai"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="SprayBoost" unique_id=843836204 instance=ExtResource("1_rs35c")]
+script = ExtResource("2_avcix")
+
+[node name="SprayCast" type="RayCast3D" parent="." index="1" unique_id=753633736]
+top_level = true
+target_position = Vector3(0, -3, 0)
+collide_with_areas = true
+
+[node name="GraffitiColl" type="Area3D" parent="." index="2" unique_id=311210735]
+input_ray_pickable = false
+
+[node name="Coll" type="CollisionShape3D" parent="GraffitiColl" index="0" unique_id=1603819262]
+shape = SubResource("SphereShape3D_avcix")
+
+[node name="UI" type="CanvasLayer" parent="." index="3" unique_id=371341510]
+
+[node name="SprayMeter" type="Line2D" parent="UI" index="0" unique_id=1042437022]
+position = Vector2(794, 374)
+points = PackedVector2Array(0, 0, 0, -100)
+width = 50.0
+default_color = Color(0.74509805, 0, 0.10980392, 1)
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="." index="4" unique_id=2077922739]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.14489818)
+emitting = false
+amount = 50
+lifetime = 0.7
+one_shot = true
+speed_scale = 2.0
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_avcix")
+draw_pass_1 = SubResource("PrismMesh_jvdai")

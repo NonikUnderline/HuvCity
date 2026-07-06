@@ -20,5 +20,4 @@ func _on_timer_timeout() -> void:
 	if $HurtBox.has_overlapping_bodies():
 		for i in $HurtBox.get_overlapping_bodies():
 			if i is NewCharacter:
-				i.spray_boost -= 1
 				i.speed /= 2

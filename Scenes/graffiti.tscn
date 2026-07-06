@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bf6gwxr3iy6yd"]
 
-[ext_resource type="Script" uid="uid://pin1de8nesf8" path="res://scripts/graffiti.gd" id="1_epgbh"]
+[ext_resource type="Script" uid="uid://pin1de8nesf8" path="res://Scripts/graffiti.gd" id="1_epgbh"]
 [ext_resource type="Texture2D" uid="uid://daw7u2g2wtfwp" path="res://Assets/Graffitis/TestGraf.png" id="2_pjppr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_owm7s"]

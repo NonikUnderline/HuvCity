@@ -2,16 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://wem0cxfgfv05" path="res://Models/CharacterNew/CharacterNew.tscn" id="1_84gn2"]
 [ext_resource type="Script" uid="uid://bggor0ai4hefs" path="res://Scripts/new_character.gd" id="1_dmuln"]
+[ext_resource type="PackedScene" uid="uid://b885dwdse2u0j" path="res://Scenes/Weapons/spray_boost.tscn" id="3_v88sr"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dmuln"]
 radius = 1.1666658
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_dmuln"]
-size = Vector3(2.5, 5, 2.5)
-
-[node name="NewCharacter" type="CharacterBody3D" unique_id=12753772]
+[node name="NewCharacter" type="CharacterBody3D" unique_id=12753772 node_paths=PackedStringArray("paint_weapon")]
 collision_layer = 2
 script = ExtResource("1_dmuln")
+paint_weapon = NodePath("Equipment/SprayBoost")
 
 [node name="Coll" type="CollisionShape3D" parent="." unique_id=625499122]
 shape = SubResource("SphereShape3D_dmuln")
@@ -19,33 +18,29 @@ shape = SubResource("SphereShape3D_dmuln")
 [node name="CharacterNew" parent="." unique_id=1110717160 instance=ExtResource("1_84gn2")]
 transform = Transform3D(1.3113416e-07, 0, 1, 0, 1, 0, -1, 0, 1.3113416e-07, 0, -0.839, 0)
 
-[node name="Debug" type="CanvasLayer" parent="." unique_id=14187044]
+[node name="Rays" type="Node3D" parent="." unique_id=984835625]
 
-[node name="Label" type="Label" parent="Debug" unique_id=430600834]
+[node name="Ground" type="RayCast3D" parent="Rays" unique_id=1880357264]
+target_position = Vector3(0, -2, 0)
+
+[node name="Colls" type="Node3D" parent="." unique_id=2126782805]
+
+[node name="CustomColl" type="Area3D" parent="Colls" unique_id=541813984]
+collision_layer = 0
+
+[node name="Coll" type="CollisionShape3D" parent="Colls/CustomColl" unique_id=685814284]
+shape = SubResource("SphereShape3D_dmuln")
+
+[node name="Equipment" type="Node3D" parent="." unique_id=789692598]
+
+[node name="SprayBoost" parent="Equipment" unique_id=843836204 instance=ExtResource("3_v88sr")]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=121149322]
+
+[node name="Debug" type="CanvasLayer" parent="UI" unique_id=14187044]
+
+[node name="Label" type="Label" parent="UI/Debug" unique_id=430600834]
 offset_left = 65.0
 offset_top = 43.0
 offset_right = 105.0
 offset_bottom = 66.0
-
-[node name="Ground" type="RayCast3D" parent="." unique_id=1880357264]
-target_position = Vector3(0, -3, 0)
-
-[node name="CustomColl" type="Area3D" parent="." unique_id=541813984]
-collision_layer = 0
-
-[node name="Coll" type="CollisionShape3D" parent="CustomColl" unique_id=685814284]
-shape = SubResource("SphereShape3D_dmuln")
-
-[node name="GraffitiColl" type="Area3D" parent="." unique_id=953936189]
-input_ray_pickable = false
-
-[node name="Coll" type="CollisionShape3D" parent="GraffitiColl" unique_id=803826607]
-shape = SubResource("BoxShape3D_dmuln")
-
-[node name="UI" type="CanvasLayer" parent="." unique_id=121149322]
-
-[node name="SprayMeter" type="Line2D" parent="UI" unique_id=818270599]
-position = Vector2(794, 374)
-points = PackedVector2Array(0, 0, 0, -100)
-width = 50.0
-default_color = Color(0.74509805, 0, 0.10980392, 1)
