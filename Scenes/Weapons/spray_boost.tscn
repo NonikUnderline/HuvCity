@@ -3,8 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://cddfhv42pc556" path="res://Models/SprayBoost/SprayBoost.gltf" id="1_rs35c"]
 [ext_resource type="Script" uid="uid://dha1o7hj6qb1x" path="res://Scenes/Weapons/spray_boost.gd" id="2_avcix"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_avcix"]
-radius = 1.1666658
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_avcix"]
+radius = 1.5
+height = 6.0
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_avcix"]
 direction = Vector3(0, 0.5, -1)
@@ -17,6 +18,7 @@ gravity = Vector3(0, -12, 0)
 size = Vector3(0.5, 0.5, 0.5)
 
 [node name="SprayBoost" unique_id=843836204 instance=ExtResource("1_rs35c")]
+top_level = true
 script = ExtResource("2_avcix")
 
 [node name="SprayCast" type="RayCast3D" parent="." index="1" unique_id=753633736]
@@ -25,10 +27,12 @@ target_position = Vector3(0, -3, 0)
 collide_with_areas = true
 
 [node name="GraffitiColl" type="Area3D" parent="." index="2" unique_id=311210735]
+collision_layer = 0
 input_ray_pickable = false
 
 [node name="Coll" type="CollisionShape3D" parent="GraffitiColl" index="0" unique_id=1603819262]
-shape = SubResource("SphereShape3D_avcix")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.0511475, 0)
+shape = SubResource("CapsuleShape3D_avcix")
 
 [node name="UI" type="CanvasLayer" parent="." index="3" unique_id=371341510]
 
@@ -48,3 +52,7 @@ speed_scale = 2.0
 randomness = 1.0
 process_material = SubResource("ParticleProcessMaterial_avcix")
 draw_pass_1 = SubResource("PrismMesh_jvdai")
+
+[node name="PaintTimer" type="Timer" parent="." index="5" unique_id=332509740]
+wait_time = 0.2
+one_shot = true

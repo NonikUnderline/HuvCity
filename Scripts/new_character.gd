@@ -4,7 +4,8 @@ class_name NewCharacter
 
 #Variables
 #grounded
-var gnd_max_speed = 22
+var gnd_max_speed = 20
+var gnd_maximum_speed = 35
 var gnd_acceleration = 1
 var gnd_spd_cap_decelaration = 0.2
 var gnd_decelaration = 2
@@ -14,14 +15,10 @@ var gnd_rotation = 0.5
 var air_speed = 0.15
 var jump_velocity = 9
 
-#spray boost
-var spray_max_speed = 27
-
 #Movement
 var speed = 0.0
 var input_dir : Vector2
 var input_cam_dir : Vector2
-var input_rot : Vector2
 var last_wall_normal : Vector3
 
 #direction
@@ -41,6 +38,10 @@ var state : String = "SkateIdle":
 		set_state(new_state)
 var previous_state = "null"
 
+##Inventory
+@export
+var paint_weapon : PaintWeapon
+
 #Refs
 @onready
 var Camera = $"../CameraGimbal"
@@ -51,8 +52,6 @@ var Coll = $Colls/CustomColl
 var CollOffset := Vector3(0,0,0)
 @onready
 var Anim = $Character/AnimationTree
-@export
-var paint_weapon : PaintWeapon
 
 func set_state(new_state):
 	if previous_state!=null:
@@ -73,14 +72,16 @@ func _enter_state(new_state, old_state):
 		"Skating":
 			if old_state == "Falling":
 				Anim.set("parameters/conditions/Jump", false)
+				Anim.set("parameters/conditions/FastFall", false)
 			else:
 				Anim.set("parameters/conditions/Moving", true)
 				
-			if is_on_ground() and is_on_ground()[0].rotation!=Vector3.ZERO:
-				speed += abs(velocity.y/18)
+			#if is_on_ground() and is_on_ground()[0].rotation!=Vector3.ZERO:
+				#speed += min(abs(velocity.y/gnd_max_speed/2),2)
 		"Falling":
-			if GroundRay.get_collision_normal()!=Vector3.ZERO:
-				velocity.y += abs(speed/18)
+			pass
+			#if GroundRay.get_collision_normal()!=Vector3.ZERO:
+				#velocity.y += min(abs(speed/gnd_max_speed),2)
 		"SkateIdle":
 			Anim.set("parameters/conditions/Moving", false)
 
@@ -115,12 +116,14 @@ func SkateIdle():
 func Skating():
 	##State Behavior
 	if input_dir:
-		if !Input.is_action_pressed("fast_fall"):
+		if !Input.is_action_pressed("fast_fall") and !Input.is_action_pressed("spray_boost"):
 			var max_speed = gnd_max_speed
 			var decelaration = gnd_acceleration
 			if speed>gnd_max_speed-0.1:
 				decelaration = gnd_spd_cap_decelaration
 			speed = move_toward(speed, max_speed, decelaration)
+		elif speed>gnd_maximum_speed:
+			speed = move_toward(speed, gnd_maximum_speed, gnd_spd_cap_decelaration)
 	else: speed = move_toward(speed, 0, gnd_acceleration)
 	
 	velocity = basis * (Vector3(0,0,speed) * Vector3.FORWARD)
@@ -133,9 +136,11 @@ func Skating():
 	global_transform.basis = Basis((direction_x * direction).normalized())
 	
 	##Half States
-	if Input.is_action_pressed("spray_boost"):
+	if Input.is_action_pressed("fast_fall"): Anim.set("parameters/conditions/FastFall", true)
+	else: Anim.set("parameters/conditions/FastFall", false)
+	
+	if Input.is_action_pressed("spray_boost") and paint_weapon.GroundUse():
 		Anim.set("parameters/conditions/GroundUse", true)
-		paint_weapon.GroundUse()
 	else:
 		Anim.set("parameters/conditions/GroundUse", false)
 	
@@ -152,7 +157,8 @@ func Skating():
 	
 
 func Falling():
-	air_direction = Basis.looking_at((velocity*speed).normalized(),Vector3.UP).get_rotation_quaternion()
+	if (velocity*speed).normalized()!=Vector3.ZERO:
+		air_direction = Basis.looking_at((velocity*speed).normalized(),Vector3.UP).get_rotation_quaternion()
 	
 	direction = direction.slerp(Quaternion(Vector3.UP,input_cam_dir.angle()).normalized(),6/max(speed,10))
 	
@@ -170,11 +176,16 @@ func Falling():
 	if velocity.y<0:
 		g_multiplier = 2
 	
-	if Input.is_action_pressed("spray_boost"):
-		paint_weapon.AirUse()
+	if Input.is_action_pressed("spray_boost") and paint_weapon.AirUse():
+		Anim.set("parameters/conditions/AirUse", true)
+	else:
+		Anim.set("parameters/conditions/AirUse", false)
 	
 	if Input.is_action_pressed("fast_fall"):
 		g_multiplier = 4
+		Anim.set("parameters/conditions/FastFall", true)
+	else:
+		Anim.set("parameters/conditions/FastFall", false)
 	
 	if is_on_ground() and velocity.y<0:
 		## compare rotation and direction quats
@@ -229,8 +240,6 @@ func _physics_process(_delta: float) -> void:
 	# Input data rotated for camera 
 	input_cam_dir = input_dir.rotated((Camera.rotation.y+PI))
 	
-	# Input Straight Up with left and right data
-	input_rot = input_cam_dir.rotated(rotation.y)
 	
 	##DEBUG
 	$UI/Debug/Label.text = str(state) + "\n" + previous_state + "\nspeed" + str(speed) + "\nvely" + str(velocity.y) + "\n" + str(g_multiplier) + "\n" + str((rotation.x))
@@ -246,5 +255,12 @@ func _physics_process(_delta: float) -> void:
 			Falling()
 		"Skid":
 			Skid()
+	
+	paint_weapon.fastfall = Input.is_action_pressed("fast_fall")
+	paint_weapon.jump = Input.is_action_pressed("jump")
+	paint_weapon.spray_button = Input.is_action_pressed("spray_boost")
+	paint_weapon.input_dir = input_dir
+	paint_weapon.input_cam_dir = input_cam_dir
+	paint_weapon.item_process(delta)
 	
 	move_and_slide()

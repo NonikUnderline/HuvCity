@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cgo7rfl3pw0ad" path="res://icon.svg" id="1_2b6ht"]
 [ext_resource type="Script" uid="uid://dx76yso5xjgy8" path="res://Scripts/camera.gd" id="3_y0mvb"]
 [ext_resource type="PackedScene" uid="uid://cxskqx5kxu5uk" path="res://Scenes/new_character.tscn" id="4_1cu7a"]
-[ext_resource type="Texture2D" uid="uid://daw7u2g2wtfwp" path="res://Assets/Graffitis/TestGraf.png" id="4_s2tkr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2b6ht"]
 size = Vector3(500, 1, 500)
@@ -448,11 +447,12 @@ script = ExtResource("3_y0mvb")
 [node name="Camera3D" type="Camera3D" parent="CameraGimbal" unique_id=264216580]
 transform = Transform3D(1, 0, 0, 0, 0.9520974, 0.30579495, 0, -0.30579495, 0.9520974, 1.2452397, 6.5846405, 9.576578)
 
-[node name="Graffiti" type="Decal" parent="." unique_id=1684140470]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5351176, -10.258947)
-size = Vector3(5, 5, 5)
-texture_albedo = ExtResource("4_s2tkr")
-cull_mask = 1048573
-
 [node name="Character" parent="." unique_id=12753772 instance=ExtResource("4_1cu7a")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3922005, 0)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1242344087]
+
+[node name="Label" type="Label" parent="UI" unique_id=37534882]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "0"
