@@ -1,0 +1,21 @@
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://dk24d46osnad3"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_okcgc"]
+animation = &"Item/ItemBase"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j6o1d"]
+animation = &"Ride/RideStop"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_pwcwf"]
+filter_enabled = true
+filters = ["Character/Body", "Character/Body/Head2", "Character/Body/LeftArm", "Character/Body/LeftArm/LowerArm2", "Character/Body/RightArm", "Character/Body/RightArm/LowerArm4", "Character/Body/RightArm/LowerArm4/Hand4/Fingers4", "Character/Body/RightArm/LowerArm4/Hand4/Pointer4", "Character/Body/RightArm/LowerArm4/Hand4/SprayBoost", "Character/Body/RightArm/LowerArm4/Hand4/Thumbs4"]
+
+[resource]
+graph_offset = Vector2(-248, 52.8)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_pwcwf")
+nodes/Blend2/position = Vector2(112, 144)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_j6o1d")
+nodes/Animation/position = Vector2(-96, 144)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_okcgc")
+"nodes/Animation 2/position" = Vector2(-96, 320)
+node_connections = [&"output", 0, &"Blend2", &"Blend2", 0, &"Animation", &"Blend2", 1, &"Animation 2"]

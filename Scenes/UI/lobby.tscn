@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://c54djgx3obtsu"]
+
+[ext_resource type="Script" uid="uid://fvintys1s5w1" path="res://Scripts/Multiplayer/lobby.gd" id="1_ry8wc"]
+[ext_resource type="PackedScene" uid="uid://xxklj4dysfe4" path="res://Scenes/sandbox.tscn" id="2_l6154"]
+
+[node name="Multiplayer" type="Node" unique_id=361713219]
+script = ExtResource("1_ry8wc")
+
+[node name="UI" type="Control" parent="." unique_id=211105917]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Net" type="VBoxContainer" parent="UI" unique_id=1949345579]
+layout_mode = 0
+offset_right = 196.0
+offset_bottom = 93.0
+
+[node name="Label" type="Label" parent="UI/Net" unique_id=72401633]
+layout_mode = 2
+text = "Direct: "
+
+[node name="Remote" type="LineEdit" parent="UI/Net" unique_id=1989382205]
+layout_mode = 2
+text = "IP"
+placeholder_text = "IP"
+
+[node name="Options" type="HBoxContainer" parent="UI/Net" unique_id=284311268]
+layout_mode = 2
+
+[node name="Host" type="Button" parent="UI/Net/Options" unique_id=246329673]
+layout_mode = 2
+text = "Host"
+
+[node name="Connect" type="Button" parent="UI/Net/Options" unique_id=1120444465]
+layout_mode = 2
+text = "Connect"
+
+[node name="Level" type="Node" parent="." unique_id=1772583171]
+
+[node name="Sandbox" parent="Level" unique_id=912304136 instance=ExtResource("2_l6154")]
+
+[connection signal="pressed" from="UI/Net/Options/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="UI/Net/Options/Connect" to="." method="_on_connect_pressed"]

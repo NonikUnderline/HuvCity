@@ -1,7 +1,7 @@
 extends Node3D
 
 @onready
-var character = $"../Character"
+var character = $"../Network/"
 
 var sensitivity = 20
 
@@ -12,11 +12,15 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	position+=character.position-position
+	var target_rotation : float
 	
-	var target_rotation = character.rotation.y
+	for i in character.get_children():
+		if i is NewCharacter:
+			if i.player == multiplayer.get_unique_id():
+				target_rotation = i.rotation.y
+				position+=i.position-position
 	
-	#rotate_y(angle_difference(rotation.y,target_rotation)/90)
+	rotate_y(angle_difference(rotation.y,target_rotation)/90)
 	
 	var cam_mov = Input.get_vector("cam_right", "cam_left", "cam_down", "cam_up")/sensitivity
 	

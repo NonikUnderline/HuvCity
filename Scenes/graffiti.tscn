@@ -60,11 +60,11 @@ speed_scale = 4.0
 process_material = SubResource("ParticleProcessMaterial_epgbh")
 draw_pass_1 = SubResource("PrismMesh_pjppr")
 
-[node name="HurtBox" type="Area3D" parent="." unique_id=2144094939]
+[node name="HitBox" type="Area3D" parent="." unique_id=2144094939]
 collision_layer = 0
 collision_mask = 2
 
-[node name="Coll" type="CollisionShape3D" parent="HurtBox" unique_id=1511315949]
+[node name="Coll" type="CollisionShape3D" parent="HitBox" unique_id=1511315949]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.0093834, 0)
 shape = SubResource("SphereShape3D_epgbh")
 

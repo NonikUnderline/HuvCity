@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bxlx2ntq3q8cy"]
+
+[ext_resource type="Script" uid="uid://b8nbk2knk8ou6" path="res://Scripts/Classes/paint_weapon_base.gd" id="1_0bcr6"]
+
+[node name="PaintWeaponBase" type="RayCast3D" unique_id=136030822]
+target_position = Vector3(0, -3, 0)
+script = ExtResource("1_0bcr6")

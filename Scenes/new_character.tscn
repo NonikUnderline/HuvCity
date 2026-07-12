@@ -2,15 +2,98 @@
 
 [ext_resource type="PackedScene" uid="uid://csmavoqn4d5en" path="res://Models/CharacterNew/CharacterNew.tscn" id="1_84gn2"]
 [ext_resource type="Script" uid="uid://bggor0ai4hefs" path="res://Scripts/new_character.gd" id="1_dmuln"]
+[ext_resource type="PackedScene" uid="uid://b482q0b2o4np3" path="res://Scenes/Weapons/skate_board.tscn" id="3_if3fp"]
 [ext_resource type="PackedScene" uid="uid://b885dwdse2u0j" path="res://Scenes/Weapons/spray_boost.tscn" id="3_v88sr"]
+[ext_resource type="Animation" uid="uid://bompm1542k1g5" path="res://Models/SprayBoost/ItemAirMove.res" id="5_8d55w"]
+[ext_resource type="Animation" uid="uid://dshuxvre3ltys" path="res://Models/SprayBoost/ItemAirUse.res" id="6_4ddoe"]
+[ext_resource type="Animation" uid="uid://d17v3n7xytdy7" path="res://Models/SprayBoost/ItemBase.res" id="7_8epta"]
+[ext_resource type="Animation" uid="uid://df52nge3jmspo" path="res://Models/SprayBoost/ItemBaseStill.res" id="8_3ki0y"]
+[ext_resource type="Animation" uid="uid://bkn4hwgn85j21" path="res://Models/SprayBoost/ItemCrouch.res" id="9_cn7a1"]
+[ext_resource type="Animation" uid="uid://b0q74o4k27nu8" path="res://Models/SprayBoost/ItemGroundUse.res" id="10_yc75l"]
+[ext_resource type="Animation" uid="uid://b8acn25hifdpu" path="res://Models/SprayBoost/ItemJump.res" id="11_5dpdx"]
+[ext_resource type="Animation" uid="uid://cluwtjaboayce" path="res://Models/SprayBoost/ItemLand.res" id="12_uft18"]
+[ext_resource type="Animation" uid="uid://c8jabckdvfkqx" path="res://Models/Skateboard/RideFastFall.res" id="13_hgrei"]
+[ext_resource type="Animation" uid="uid://dj5xdcxse6gx6" path="res://Models/Skateboard/RideJump.res" id="14_8rru5"]
+[ext_resource type="Animation" uid="uid://bv22qhachtlqa" path="res://Models/Skateboard/RideLand.res" id="15_dxrkr"]
+[ext_resource type="Animation" uid="uid://c44dtscfbmf1x" path="res://Models/Skateboard/RidePush.res" id="16_wcbc3"]
+[ext_resource type="Animation" uid="uid://mbreea4p344f" path="res://Models/Skateboard/RideRolling.res" id="17_5225v"]
+[ext_resource type="Animation" uid="uid://r6epfafpv4mn" path="res://Models/Skateboard/RideStop.res" id="18_81ahc"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://b08yn2n8hd3ln" path="res://Models/Animations/Jump.tres" id="19_lo2do"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://cofwoj5k20kpg" path="res://Models/Animations/Land.tres" id="20_jvk8s"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://cy5yohhek4k5g" path="res://Models/Animations/Push.tres" id="21_voiix"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://0q6fqk25tjrs" path="res://Models/Animations/Rolling.tres" id="22_6sf7u"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://dk24d46osnad3" path="res://Models/Animations/Stop.tres" id="23_q3i3y"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dmuln"]
 radius = 1.1666658
 
-[node name="NewCharacter" type="CharacterBody3D" unique_id=12753772 node_paths=PackedStringArray("paint_weapon")]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_80osg"]
+_data = {
+&"ItemAirMove": ExtResource("5_8d55w"),
+&"ItemAirUse": ExtResource("6_4ddoe"),
+&"ItemBase": ExtResource("7_8epta"),
+&"ItemBaseStill": ExtResource("8_3ki0y"),
+&"ItemCrouch": ExtResource("9_cn7a1"),
+&"ItemGroundUse": ExtResource("10_yc75l"),
+&"ItemJump": ExtResource("11_5dpdx"),
+&"ItemLand": ExtResource("12_uft18")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u2j8g"]
+_data = {
+&"RideFastFall": ExtResource("13_hgrei"),
+&"RideJump": ExtResource("14_8rru5"),
+&"RideLand": ExtResource("15_dxrkr"),
+&"RidePush": ExtResource("16_wcbc3"),
+&"RideRolling": ExtResource("17_5225v"),
+&"RideStop": ExtResource("18_81ahc")
+}
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_j3wl5"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_dffwm"]
+advance_mode = 2
+advance_condition = &"Moving"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ohvjo"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_kjcxs"]
+advance_mode = 2
+advance_condition = &"Jump"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_48nbd"]
+advance_mode = 2
+advance_expression = "!get(\"parameters/conditions/Jump\")"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xvq3x"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_s5ns7"]
+advance_mode = 2
+advance_expression = "!get(\"parameters/conditions/Moving\")"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_84624"]
+states/Jump/node = ExtResource("19_lo2do")
+states/Jump/position = Vector2(482.74402, 101.184006)
+states/Land/node = ExtResource("20_jvk8s")
+states/Land/position = Vector2(596.60004, 100)
+states/Push/node = ExtResource("21_voiix")
+states/Push/position = Vector2(358.52, 23.008001)
+states/Rolling/node = ExtResource("22_6sf7u")
+states/Rolling/position = Vector2(482.2, 23.366402)
+states/Stop/node = ExtResource("23_q3i3y")
+states/Stop/position = Vector2(359, 99.68)
+transitions = ["Start", "Stop", SubResource("AnimationNodeStateMachineTransition_j3wl5"), "Stop", "Push", SubResource("AnimationNodeStateMachineTransition_dffwm"), "Push", "Rolling", SubResource("AnimationNodeStateMachineTransition_ohvjo"), "Rolling", "Jump", SubResource("AnimationNodeStateMachineTransition_kjcxs"), "Jump", "Land", SubResource("AnimationNodeStateMachineTransition_48nbd"), "Land", "Rolling", SubResource("AnimationNodeStateMachineTransition_xvq3x"), "Rolling", "Stop", SubResource("AnimationNodeStateMachineTransition_s5ns7")]
+graph_offset = Vector2(-41, -84)
+
+[node name="NewCharacter" type="CharacterBody3D" unique_id=12753772 node_paths=PackedStringArray("paint_weapon", "movement_ride")]
 collision_layer = 2
 script = ExtResource("1_dmuln")
 paint_weapon = NodePath("Equipment/SprayBoost")
+movement_ride = NodePath("Equipment/SkateBoard")
 
 [node name="Coll" type="CollisionShape3D" parent="." unique_id=625499122]
 shape = SubResource("SphereShape3D_dmuln")
@@ -18,7 +101,11 @@ shape = SubResource("SphereShape3D_dmuln")
 [node name="Rays" type="Node3D" parent="." unique_id=984835625]
 
 [node name="Ground" type="RayCast3D" parent="Rays" unique_id=1880357264]
-target_position = Vector3(0, -2, 0)
+target_position = Vector3(0, -1.5, 0)
+
+[node name="AlignFloor" type="RayCast3D" parent="Rays" unique_id=1042274367]
+top_level = true
+target_position = Vector3(0, -10, 0)
 
 [node name="Colls" type="Node3D" parent="." unique_id=2126782805]
 
@@ -32,6 +119,9 @@ shape = SubResource("SphereShape3D_dmuln")
 
 [node name="SprayBoost" parent="Equipment" unique_id=843836204 instance=ExtResource("3_v88sr")]
 
+[node name="SkateBoard" parent="Equipment" unique_id=1402364011 instance=ExtResource("3_if3fp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0)
+
 [node name="UI" type="CanvasLayer" parent="." unique_id=121149322]
 
 [node name="Debug" type="CanvasLayer" parent="UI" unique_id=14187044]
@@ -44,3 +134,21 @@ offset_bottom = 66.0
 
 [node name="Character" parent="." unique_id=1284234206 instance=ExtResource("1_84gn2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.71399987, 0)
+
+[node name="AnimationTree" type="AnimationTree" parent="Character" unique_id=748798093]
+libraries/Item = SubResource("AnimationLibrary_80osg")
+libraries/Ride = SubResource("AnimationLibrary_u2j8g")
+tree_root = SubResource("AnimationNodeStateMachine_84624")
+parameters/conditions/Jump = false
+parameters/conditions/Moving = false
+parameters/Jump/Blend2/blend_amount = 1.0
+parameters/Jump/JumpActions/blend_amount = 0.0
+parameters/Jump/AnimationNodeBlendTree/Blend2/blend_amount = 1.0
+"parameters/Jump/AnimationNodeBlendTree 2/Blend2/blend_amount" = 1.0
+parameters/Land/Blend2/blend_amount = 1.0
+parameters/Push/Blend2/blend_amount = 1.0
+parameters/Rolling/Blend2/blend_amount = 1.0
+parameters/Rolling/GroundActions/blend_amount = 0.0
+parameters/Stop/Blend2/blend_amount = 1.0
+
+[connection signal="area_entered" from="Colls/CustomColl" to="." method="_on_custom_coll_area_entered"]

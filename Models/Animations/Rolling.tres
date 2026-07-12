@@ -1,0 +1,42 @@
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://0q6fqk25tjrs"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_okcgc"]
+animation = &"Item/ItemBase"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_rxma5"]
+animation = &"Item/ItemCrouch"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g54h8"]
+animation = &"Item/ItemGroundUse"
+advance_on_start = true
+use_custom_timeline = true
+timeline_length = 0.29167
+stretch_time_scale = false
+start_offset = 0.0
+loop_mode = 0
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j6o1d"]
+animation = &"Ride/RideRolling"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_pwcwf"]
+filter_enabled = true
+filters = ["Character/Body", "Character/Body/Head2", "Character/Body/LeftArm", "Character/Body/LeftArm/LowerArm2", "Character/Body/RightArm", "Character/Body/RightArm/LowerArm4", "Character/Body/RightArm/LowerArm4/Hand4/Fingers4", "Character/Body/RightArm/LowerArm4/Hand4/Pointer4", "Character/Body/RightArm/LowerArm4/Hand4/SprayBoost", "Character/Body/RightArm/LowerArm4/Hand4/Thumbs4"]
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_yyet6"]
+
+[resource]
+graph_offset = Vector2(-238.32153, 36.727394)
+nodes/output/position = Vector2(704, 160)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_pwcwf")
+nodes/Blend2/position = Vector2(368, 144)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_j6o1d")
+nodes/Animation/position = Vector2(-96, 144)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_okcgc")
+"nodes/Animation 2/position" = Vector2(-96, 512)
+"nodes/Animation 3/node" = SubResource("AnimationNodeAnimation_rxma5")
+"nodes/Animation 3/position" = Vector2(-96, 320)
+nodes/GroundActions/node = SubResource("AnimationNodeBlend3_yyet6")
+nodes/GroundActions/position = Vector2(208, 288)
+"nodes/Animation 4/node" = SubResource("AnimationNodeAnimation_g54h8")
+"nodes/Animation 4/position" = Vector2(112, 608)
+node_connections = [&"output", 0, &"Blend2", &"Blend2", 0, &"Animation", &"Blend2", 1, &"GroundActions", &"GroundActions", 0, &"Animation 3", &"GroundActions", 1, &"Animation 2", &"GroundActions", 2, &"Animation 4"]

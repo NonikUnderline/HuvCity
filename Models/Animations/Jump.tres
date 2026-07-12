@@ -1,0 +1,33 @@
+[gd_resource type="AnimationNodeBlendTree" format=3 uid="uid://b08yn2n8hd3ln"]
+
+[ext_resource type="AnimationNodeBlendTree" uid="uid://dp7o7od7xnkn0" path="res://Models/Animations/AirUse.tres" id="1_puppq"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://cv0j42kcrnt46" path="res://Models/Animations/FastFall.tres" id="2_ktoaw"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_okcgc"]
+animation = &"Item/ItemJump"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_j6o1d"]
+animation = &"Ride/RideJump"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_pwcwf"]
+filter_enabled = true
+filters = ["Character/Body", "Character/Body/Head2", "Character/Body/LeftArm", "Character/Body/LeftArm/LowerArm2", "Character/Body/RightArm", "Character/Body/RightArm/LowerArm4", "Character/Body/RightArm/LowerArm4/Hand4/Fingers4", "Character/Body/RightArm/LowerArm4/Hand4/Pointer4", "Character/Body/RightArm/LowerArm4/Hand4/SprayBoost", "Character/Body/RightArm/LowerArm4/Hand4/Thumbs4"]
+
+[sub_resource type="AnimationNodeBlend3" id="AnimationNodeBlend3_vieks"]
+
+[resource]
+graph_offset = Vector2(-239.4747, 55.000755)
+nodes/output/position = Vector2(688, 288)
+nodes/Blend2/node = SubResource("AnimationNodeBlend2_pwcwf")
+nodes/Blend2/position = Vector2(112, 144)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_j6o1d")
+nodes/Animation/position = Vector2(-96, 144)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_okcgc")
+"nodes/Animation 2/position" = Vector2(-96, 320)
+nodes/JumpActions/node = SubResource("AnimationNodeBlend3_vieks")
+nodes/JumpActions/position = Vector2(400, 176)
+nodes/AnimationNodeBlendTree/node = ExtResource("2_ktoaw")
+nodes/AnimationNodeBlendTree/position = Vector2(46.449005, -60.61264)
+"nodes/AnimationNodeBlendTree 2/node" = ExtResource("1_puppq")
+"nodes/AnimationNodeBlendTree 2/position" = Vector2(96, 480)
+node_connections = [&"output", 0, &"JumpActions", &"Blend2", 0, &"Animation", &"Blend2", 1, &"Animation 2", &"JumpActions", 0, &"AnimationNodeBlendTree", &"JumpActions", 1, &"Blend2", &"JumpActions", 2, &"AnimationNodeBlendTree 2"]

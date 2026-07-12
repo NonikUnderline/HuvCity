@@ -1,458 +1,98 @@
-[gd_scene format=3 uid="uid://xxklj4dysfe4"]
+[gd_scene format=4 uid="uid://xxklj4dysfe4"]
 
-[ext_resource type="Texture2D" uid="uid://cgo7rfl3pw0ad" path="res://icon.svg" id="1_2b6ht"]
+[ext_resource type="Texture2D" uid="uid://laesevduo05u" path="res://Models/Maps/TestMap/TestMap_0.png" id="1_y0mvb"]
+[ext_resource type="PackedScene" uid="uid://csmavoqn4d5en" path="res://Models/CharacterNew/CharacterNew.tscn" id="3_s2tkr"]
 [ext_resource type="Script" uid="uid://dx76yso5xjgy8" path="res://Scripts/camera.gd" id="3_y0mvb"]
-[ext_resource type="PackedScene" uid="uid://cxskqx5kxu5uk" path="res://Scenes/new_character.tscn" id="4_1cu7a"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_2b6ht"]
-size = Vector3(500, 1, 500)
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s7ybg"]
+resource_name = "material_0"
+transparency = 2
+alpha_scissor_threshold = 0.05
+alpha_antialiasing_mode = 0
+cull_mode = 2
+albedo_texture = ExtResource("1_y0mvb")
+texture_filter = 0
+texture_repeat = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y0mvb"]
-albedo_texture = ExtResource("1_2b6ht")
+[sub_resource type="ArrayMesh" id="ArrayMesh_rxp6i"]
+_surfaces = [{
+"aabb": AABB(-82.5, -3.06526, -0.5, 165, 25.06526, 81.09919),
+"format": 34359742465,
+"index_count": 417,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAAAAIABAAFAAAANwA4ADkANwA6ADgAOwA3ADkAOAA4ADkAOwA5ADwAOAA8ADkAPAA9ADsAOAA8ADgAOAA8ADwAPAA+AD0APAA4AD8APgA8AEAAPAA/AEAAPgBAAEEAQAA/AEIAQABCAEEAHAAdAB4AHABDAB0AQwAcACEAHgAdAB8AHwAdAEMAHgAfACMAQwAhACAAHwBDACAAIAAhACIAJgAjAB8AJgAnACMAHwAgACQAIAAiACQAJQAkACIAJQAoACQAJAAoACsAJgAfACkAJAApAB8AJgApACoALAAqACkALAApAC0AJAArAC4AJAAuACkAKwAvAC4AKwAwAC8AMQAuAC8AMgAtACkAMgAzAC0AMQA0AC4ANAApAC4ANQA0ADEANgAyACkANgAzADIANAA2ACkANgA1ADMANQA2ADQABgAHAAgABgAJAAcABwAJAAoABwAKAAsADAALAAoADAANAAsADQAMAA4ADQAOAA8AEAAPAA4AEAARAA8AEQASABMAEQAUABIAEQAVABQAEQAWABUAEAAWABEAEAAXABYAFwAQABgAFwAYABkAGAAQABoAGAAaABsARABFAEYARABHAEUARgBEAEQARgBFAEgARgBJAEQARgBIAEkASQBGAEkASgBJAEgASwBEAEkASgBMAEkASwBJAE0ATQBJAEwATgBLAE0ATQBMAE8ATgBNAE8AUABRAFIAUABTAFEAVABQAFIAVQBRAFMAVQBTAFYAUQBXAFIAVQBXAFEAVABSAFcAWABVAFYAWABXAFUAWABWAFkAWQBaAFgAWQBbAFoAWABaAFwAWABcAF0AXQBXAFgAXABeAF0AXABfAF4AXgBfAGAAXQBeAGEAXQBhAFcAXgBgAGIAYQBeAGIAYgBgAGMAVwBhAGQAYQBiAGQAVwBkAGUAVABXAGUAZABiAGYAYgBjAGYAZQBkAGYAYwBnAGYAZQBmAGcAYwBoAGcAVABlAGkAaABqAGcAaABrAGoAbABnAGoAbQBpAGUAbQBuAGkAbABvAGcAbwBlAGcAcABvAGwAbQBlAHEAcQBuAG0AcQBlAG8AcQBwAG4AcABxAG8A"),
+"lods": [31.127558, PackedByteArray("AAABAAIAAAADAAEABAAAAAIABAAFAAAAHAAdAB4AHgAdAB8AHAAgAB0AHwAdACAAIAAcACEAIAAhACIAHgAfACMAIAAiACQAHwAgACQAJQAkACIAJgAjAB8AJgAnACMAJQAoACQAJgAfACkAJAApAB8AJgApACoAJAAoACsALAAqACkALAApAC0AJAArAC4AJAAuACkAKwAvAC4AKwAwAC8AMQAuAC8AMgAtACkAMgAzAC0AMQA0AC4ANAApAC4ANQA0ADEANgAyACkANgAzADIANAA2ACkANgA1ADMANQA2ADQABgAHAAgABgAJAAcABwAJAAoABwAKAAsADAALAAoADAANAAsADQAMAA4ADQAOAA8AEAAPAA4AEAARAA8AEQASABMAEQAUABIAEQAVABQAEQAWABUAEAAWABEAEAAXABYAFwAQABgAFwAYABkAGAAQABoAGAAaABsA"), 53.81138, PackedByteArray("AAABAAIAAAADAAEABAAAAAIABAAFAAAABgAHAAgABgAJAAcABwAJAAoABwAKAAsADAALAAoADAANAAsADQAMAA4ADQAOAA8AEAAPAA4AEAARAA8AEQASABMAEQAUABIAEQAVABQAEQAWABUAEAAWABEAEAAXABYAFwAQABgAFwAYABkAGAAQABoAGAAaABsA")],
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 114,
+"vertex_data": PackedByteArray("AAClwgAA4EAAAAAAAAClQgAA4EAAAAC/AAClQgAA4EAAAAAAAAClwgAA4EAAAAC/AAClQgAAQEAAAAAAAAClwgAAQEAAAAAAAACgwgAAsEEAAKBCAACgQgAAsEGmzJxCAACgQgAAsEEAAKBCAACgwgAAsEGmzJxCAACgwvAhEkGmzJxCAACgQvAhEkGmzJxCAACgwqLLLECmzJxCAACgQqLLLECmzJxCAACgwgCknb+mzJxCAACgQgCknb+mzJxCAACgwuwwQcDJMpdCAACgQuwwQcDJMpdCAACgQsWzX0HJMqFCAACgQuwwQcDJMqFCAACgQsWzX0HJMpdCAACgQsWzX0HMTXK8AACgQuwwQcDMTXK8AACgwuwwQcDMTXK8AACgwsWzP0HJMpdCAACgwsWzP0HMTXK8AACgwuwwQcDJMqFCAACgwsWzP0HJMqFCAABQQmSgnD+8jP9AAACAQC4CM0DejP9AAABQQi4CM0DejP9AAACAQC4CM0CpLn1AAACAQB25a7+LcgpBAABQQh25a7+LcgpBAABQQmttFsAg7CFBAABQQi4CM0CpLn1AAACAQGttFsAg7CFBAABQQjgtRMA3M0ZBAACAQC4CM0BQjZe9AABQQi4CM0BQjZe9AACAQDgtRMA3M0ZBAACAwC4CM0CpLn1AAACAwC4CM0BQjZe9AACAwDgtRMA3M0ZBAABQwi4CM0BQjZe9AABQwi4CM0CpLn1AAACAwGttFsAg7CFBAABQwmttFsAg7CFBAABQwjgtRMA3M0ZBAABQwh25a7+LcgpBAACAwC4CM0BvxgNBAABQwi4CM0BvxgNBAACAwB25a7+LcgpBAABQwmSgnD+8jP9AAACAwGSgnD+8jP9AAABQwmIlhEDMTXK8AABQwuwwQcDrmUxBAABQwmIlhEDrmUxBAABQwuwwQcDMTXK8AACAwmIlhEDMTXK8AACAwmIlhEDrmUxBAACgwmIlhEDMTXK8AACgwmIlhEDrmUxBAABQwuwwQcDIKyNCAACAwmIlhEAEU+ZBAACgwmIlhEAEU+ZBAACgwuwwQcDIKyNCAACAQGSgnD+8jP9AAABQQuwwQcDrmUxBAABQQmIlhEDMTXK8AABQQmIlhEDrmUxBAABQQuwwQcDMTXK8AACAQmIlhEDMTXK8AACAQmIlhEDrmUxBAACgQmIlhEDMTXK8AABQQuwwQcDIKyNCAACgQmIlhEDrmUxBAACAQmIlhEAEU+ZBAACgQuwwQcDIKyNCAACgQmIlhEAEU+ZBEhLVwC4CM0CmzJxC8RHVwGSgnD+lYEZCEhLVwC4CM0ClYEZC8RHVwGSgnD+mzJxCrOLtvy4CM0CmzJxCSWnqwJW5a7+lYEZCSWnqwJW5a7+mzJxCrOLtvy4CM0ClYEZCN6kMwWttFsClYEZCHa0MwWttFsCmzJxCfPIwwTgtRMClYEZCfPIwwTgtRMCmzJxCfPIwwTgtRMAGKxNCN6kMwWttFsAGKxNCrOHtv8ns678Smu5BnuHtv/wsRMBQ7N9BnuHtP/wsRMBQ7N9B4+Htvy4CM0AGKxNCrOHtP8ns678Smu5BfPIwQTgtRMAGKxNC4+HtPy4CM0AGKxNCrOLtPy4CM0ClYEZCN6kMQWttFsAGKxNCN6kMQWttFsClYEZCfPIwQTgtRMClYEZCrOLtPy4CM0CmzJxCHa0MQWttFsCmzJxCfPIwQTgtRMCmzJxCSWnqQJW5a7+mzJxCEhLVQC4CM0ClYEZCEhLVQC4CM0CmzJxCSWnqQJW5a7+lYEZC8RHVQGSgnD+mzJxC8RHVQGSgnD+lYEZC")
+}]
+blend_shape_mode = 0
 
-[sub_resource type="BoxMesh" id="BoxMesh_y0mvb"]
-size = Vector3(500, 1, 500)
+[sub_resource type="ArrayMesh" id="ArrayMesh_y0mvb"]
+resource_name = "blockbench_export_mesh"
+_surfaces = [{
+"aabb": AABB(-82.5, -3.06526, -0.5, 165, 25.06526, 81.09919),
+"attribute_data": PackedByteArray("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"),
+"format": 34359742487,
+"index_count": 417,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUAYgBjAGQAYgBlAGMAZgBnAGgAZgBpAGcAagBrAGwAagBtAGsAbgBvAHAAbgBxAG8AcgBzAHQAcgB1AHMAdgB3AHgAdgB5AHcAegB7AHwAegB9AHsAfgB/AIAAfgCBAH8ALAAtAC4ALACCAC0AMQAyADMAMQA0ADIAPQA+AD8APQBAAD4AgwAwAC8AgwCEADAARQBGAEcARQBIAEYASQBKAEsASQBMAEoAOQA3ADoAOQA4ADcAQQBDAEIAQQBEAEMATQBOAE8ATQBQAE4AUQBSAFMAUQBUAFIAhQCGAIcAhQCIAIYANQCJAIoANQA2AIkAOwCLAIwAOwA8AIsAjQCOAI8AjQCQAI4AVQBWAFcAVQBYAFYAWQBaAFsAkQCSAJMAlABcAJUAXQBeAF8AlgBgAJcAmABhAJkACAAJAAoACAALAAkADAANAA4ADAAPAA0AmgAQABEAmgCbABAAEgCcAJ0AEgATAJwAFAAVABYAFAAXABUAGAAZABoAGAAbABkAngCfAKAAngChAJ8AogCjAKQAogClAKMApgCnAKgApgCpAKcAqgCrAKwAqgCtAKsArgCvALAArgCxAK8AsgCzALQAsgC1ALMAtgC3ALgAtgC5ALcAugC7ALwAvQC+AL8AvQDAAL4AwQDCAMMAwQDEAMIAxQDGAMcAxQDIAMYAyQDKAMsAyQDMAMoAzQDOAM8AzQDQAM4A0QDSANMA0QDUANIA1QDWANcA1QDYANYA2QDaANsA3ADdAN4A3wDgAOEA4gDjAOQA4gDlAOMA5gDnAOgA6QDqAOsA6QDsAOoA7QDuAO8A7QDwAO4A8QDyAPMA8QD0APIA9QD2APcA9QD4APYA+QD6APsA+QD8APoA/QD+AP8A/QAAAf4AAQECAQMBAQEEAQIBBQEGAQcBCAEJAQoBCwEMAQ0BDgEPARABDgERAQ8BEgETARQBFQEWARcBFQEYARYBGQEaARsBGQEcARoBHQEeAR8BHQEgAR4BIQEiASMBIQEkASIBHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkA"),
+"lods": [31.127558, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUALAAtAC4ALAAvAC0ALwAsADAAMQAyADMAMQA0ADIANQAzADIANQA2ADMAMQAzADcAMQA3ADgAOQA4ADcAOQA3ADoAOwA6ADcAOwA8ADoAPQA+AD8APQBAAD4APgBAAEEAPgBBAEIAQQBDAEIAQQBEAEMARQBGAEcARQBIAEYASQBKAEsASQBMAEoATQBOAE8ATQBQAE4AUQBSAFMAUQBUAFIAVQBWAFcAVQBYAFYAWQBaAFsAWQBcAFoAXQBeAF8AXQBgAF4AYABhAF4ACAAJAAoACAALAAkADAANAA4ADAAPAA0ADwAMABAADwAQABEAEgARABAAEgATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkA"), 53.81138, PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0ADwAMABAADwAQABEAEgARABAAEgATABEAFAAVABYAFAAXABUAGAAZABoAGAAbABkAHAAdAB4AHAAfAB0AIAAhACIAIAAjACEAJAAlACYAJAAnACUAKAApACoAKAArACkA")],
+"material": SubResource("StandardMaterial3D_s7ybg"),
+"name": "material_0",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 293,
+"vertex_data": PackedByteArray("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////v/9///////+//////wAA/7//////AAD/v/////8AAP+//////wAA/7//////AAD/v/////8AAP+//////wAA/7//////AAD/v/9///////+//3///////7//f///////v/9///////+/27H//////7/bsf//////v9ux//////+/27H//////78AAP9/////vwAA/3////+/AAD/f////78AAP9/////vwAA/3//f/+/AAD/f/9//78AAP9//3//vwAA/3//f/+/////f////7////9/////v////3////+/////f////7////9//////////3//////////f/////////9///////9//3////+//3//f////7//f/9/////v/9/XZ7///+//39dnv///7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f1Dh////v/9/UOH///+//39Q4f///7//f1Dh////v/9/UOH///+//39Q4f///7//f1Dh////v/9/UOH///+//3/TwP///7//f9PA////v/9/08D///+//3/TwP///7//f3Ju////v/9/cm7///+//39ybv///7//f3Ju////v/9/XZ7///+//39dnv///7//f12e////v/9/XZ7///+//3/TwP///7//f9PA////v/9/08D///+//3/TwP///7//f7/F////v/9/v8X///+//3+/xf///7//f7/F////vwAA/3//f/+/AAD/f/9/AMAAAP9//38BwAAA/3//f/+/////f/v/AID///9//v8AgP///3/7/wCA////f/7/AID///9//////////3//////////f/////////9//////////3///////3///////7//f///////v/9///////+//3///////7/HrzbQNtAbqMevNtA20Buox6820DbQG6jHrzbQNtAbqP9///////+//3///////7//f///////v/9///////+//3840P///7//fzjQ////v/9/OND///+//3840P///7//f///////v/9///////+//3///////7//f///////v////3////+/////f////7////9/////v////3////+//3//f////7//f/9/////v/9//3////+//3//f////7//f/9/////v/9/XZ7///+//39dnv///7//f1Dh////v/9/UOH///+//39Q4f///7//f1Dh////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////78AAP9//3//vwAA/3//f/+/AAD/f/9/AMAAAP9//3//vwAA/3//f/+/////f/v/AID///9//v8AgP///3/+/wCA////f/7/AID/////AAD/v/////8AAP+//////wAA/7//////AAD/vwAA/3//f/+/AAD/f/9//78AAP9//3//vwAA/3//f/+//3///////7//f///////v/9///////+//3///////783UDbQNtDj1zdQNtA20OPXN1A20DbQ49c3UDbQNtDj1/9///////+//3///////7//f///////v/9///////+//3840P///7//fzjQ////v/9/OND///+//3840P///7//f///////v/9///////+//3///////7//f///////v////38AAACA////fwAAAID///9/////v////38AAACA////fwAAAID///9/AAAAgP///3////+/AAD/f/9//78AAP9//3//vwAA/3//f/+/AAD/f/9//79SYVLhA+jz2VJhUuED6PTZUmFS4QPo9NlSYVLhA+jz2V0eXJ7/f/+/XR5cnv9//79dHlye/3//v10eXJ7/f/+/0kDSwP5//7/SQNLA/n//v9JA0sD+f/+/0kDSwP5//791SXTJX9Se4nVJdMlf1J7idUl0yV/UnuJ1SXTJX9Se4lJhUuED6PTZUmFS4QPo9NlSYVLhA+j02VJhUuED6PTZ/3///////7//f///////v/9///////+//3///////7//////AQAAwP////8AAP+//////wEA/7//////AQD/v/////8AAP+//////wAA/7//////AAD/v/////8AAP+//////wAA/79CUhHmNLHkzUJSEeY1seTNQlIR5jSx5M1CUhHmNbHkzSQ1idiL3IfdJDWJ2Ivch90kNYnYi9yH3f7//3///////v//f//////+//9///////7//3//////rJ5S4RXMAbSsnlLhFcwBtKyeUuEVzAG0rJ5S4RXMAbSh4Vye/////6HhXJ7/////oeFcnv////+h4Vye/////yy/0sAsP5XfLL/SwCw/ld8sv9LALD+V3yy/0sAsP5XfibZ0ycC6L6qJtnTJwLovqom2dMnAui+qibZ0ycC6L6qsnlLhFcwBtKyeUuEVzAG0rJ5S4RXMAbSsnlLhFcwBtP9///////+//3///////7//f///////v/9///////+//////wEA/r//////AAD/v/////8BAP6//////wAA/7//////AAD/v/////8BAP6//////wAA/7//////AAD/v/////8AAP+/vK0R5oEEMuG8rRHmgQQy4bytEeaBBDLhvK0R5oEEMuHayonY7sRFrtrKidjuxEWu2sqJ2O7ERa4rs///////vyuz//////+/K7P//////78rs///////vyuz//////+/K7P//////78rs///////vyuz//////+//3///////7//f///////v/9///////+//3///////7//f///////v/9///////+//3///////7//f///////vw==")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_rxp6i")
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_y0mvb"]
-size = Vector3(40, 2, 20)
-
-[sub_resource type="BoxMesh" id="BoxMesh_s2tkr"]
-size = Vector3(40, 2, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_s2tkr"]
-size = Vector3(10, 2, 10)
-
-[sub_resource type="BoxMesh" id="BoxMesh_1cu7a"]
-size = Vector3(10, 2, 10)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_1cu7a"]
-size = Vector3(30, 2, 30)
-
-[sub_resource type="BoxMesh" id="BoxMesh_koc8j"]
-size = Vector3(30, 2, 30)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_koc8j"]
-size = Vector3(15, 2, 15)
-
-[sub_resource type="BoxMesh" id="BoxMesh_wpw8k"]
-size = Vector3(15, 2, 15)
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_s2tkr"]
+data = PackedVector3Array(-82.5, 7, 0, 82.5, 7, -0.5, 82.5, 7, 0, -82.5, 7, 0, -82.5, 7, -0.5, 82.5, 7, -0.5, 82.5, 3, 0, -82.5, 7, 0, 82.5, 7, 0, 82.5, 3, 0, -82.5, 3, 0, -82.5, 7, 0, -52, 4.1296, -0.0148, -52, -3.0186, 12.7876, -52, 4.1296, 12.7876, -52, 4.1296, -0.0148, -52, -3.0186, -0.0148, -52, -3.0186, 12.7876, -64, 4.1296, 12.7876, -80, 4.1296, -0.0148, -64, 4.1296, -0.0148, -64, 4.1296, 12.7876, -80, 4.1296, 12.7876, -80, 4.1296, -0.0148, -64, 4.1296, 12.7876, -52, -3.0186, 40.792797, -64, 4.1296, 28.790499, -64, 4.1296, 12.7876, -52, -3.0186, 12.7876, -52, -3.0186, 40.792797, -80, 4.1296, 12.7876, -64, 4.1296, 28.790499, -80, 4.1296, 28.790499, -80, 4.1296, 12.7876, -64, 4.1296, 12.7876, -64, 4.1296, 28.790499, -64, 4.1296, 28.790499, -80, -3.0186, 40.792797, -80, 4.1296, 28.790499, -64, 4.1296, 28.790499, -52, -3.0186, 40.792797, -80, -3.0186, 40.792797, -64, 4.1296, -0.0148, -52, 4.1296, 12.7876, -64, 4.1296, 12.7876, -64, 4.1296, -0.0148, -52, 4.1296, -0.0148, -52, 4.1296, 12.7876, -52, -3.0186, 12.7876, -52, -3.0186, 12.7876, -52, 4.1296, 12.7876, -52, -3.0186, 12.7876, -64, 4.1296, 12.7876, -52, -3.0186, 12.7876, -52, -3.0186, 12.7876, -64, 4.1296, 12.7876, -52, 4.1296, 12.7876, -52, -3.0186, 12.7876, -64, 4.1296, 12.7876, -64, 4.1296, 12.7876, 52, 1.2235999, 7.9859, 4, 2.797, 7.9859, 52, 2.797, 7.9859, 52, 1.2235999, 7.9859, 4, 1.2235999, 7.9859, 4, 2.797, 7.9859, 4, 2.797, -0.074, 52, 2.797, 3.9559999, 4, 2.797, 3.9559999, 4, 2.797, -0.074, 52, 2.797, -0.074, 52, 2.797, 3.9559999, 52, -3.0653, 12.3875, 4, -2.3504, 10.1201, 52, -2.3504, 10.1201, 52, -3.0653, 12.3875, 4, -3.0653, 12.3875, 4, -2.3504, 10.1201, 4, 1.2235999, 7.9859, 52, -0.9208, 8.653, 4, -0.9208, 8.653, 4, 1.2235999, 7.9859, 52, 1.2235999, 7.9859, 52, -0.9208, 8.653, 4, -0.9208, 8.653, 52, -2.3504, 10.1201, 4, -2.3504, 10.1201, 4, -0.9208, 8.653, 52, -0.9208, 8.653, 52, -2.3504, 10.1201, -4, 1.2235999, 7.9859, -52, 2.797, 8.2359, -4, 2.797, 8.2359, -4, 1.2235999, 7.9859, -52, 1.2235999, 7.9859, -52, 2.797, 8.2359, -52, 2.797, -0.074, -4, 2.797, 3.9559999, -52, 2.797, 3.9559999, -52, 2.797, -0.074, -4, 2.797, -0.074, -4, 2.797, 3.9559999, -4, -3.0653, 12.3875, -52, -2.3504, 10.1201, -4, -2.3504, 10.1201, -4, -3.0653, 12.3875, -52, -3.0653, 12.3875, -52, -2.3504, 10.1201, -52, 1.2235999, 7.9859, -4, -0.9208, 8.653, -52, -0.9208, 8.653, -52, 1.2235999, 7.9859, -4, 1.2235999, 7.9859, -4, -0.9208, 8.653, -52, -0.9208, 8.653, -4, -2.3504, 10.1201, -52, -2.3504, 10.1201, -52, -0.9208, 8.653, -4, -0.9208, 8.653, -4, -2.3504, 10.1201, 4, -2.3504, 10.1201, -4, -3.0653, 12.3875, -4, -2.3504, 10.1201, 4, -2.3504, 10.1201, 4, -3.0653, 12.3875, -4, -3.0653, 12.3875, 52, 2.797, 7.9859, 4, 2.797, 3.9559999, 52, 2.797, 3.9559999, 52, 2.797, 7.9859, 4, 2.797, 7.9859, 4, 2.797, 3.9559999, -4, 2.797, 8.2359, -52, 2.797, 3.9559999, -4, 2.797, 3.9559999, -4, 2.797, 8.2359, -52, 2.797, 8.2359, -52, 2.797, 3.9559999, 4, 2.797, -0.074, -4, 2.797, 3.9559999, -4, 2.797, -0.074, 4, 2.797, -0.074, 4, 2.797, 3.9559999, -4, 2.797, 3.9559999, 4, -2.3504, 10.1201, -4, 2.797, 3.9559999, 4, 2.797, 3.9559999, 4, -2.3504, 10.1201, -4, -2.3504, 10.1201, -4, 2.797, 3.9559999, 4, 2.797, 3.9559999, 4, -0.9208, 8.653, 4, -2.3504, 10.1201, 4, 2.797, 3.9559999, 4, 1.2235999, 7.9859, 4, -0.9208, 8.653, 4, 2.797, 3.9559999, 4, 2.797, 7.9859, 4, 1.2235999, 7.9859, -4, -0.9208, 8.653, -4, 2.797, 3.9559999, -4, -2.3504, 10.1201, -4, -0.9208, 8.653, -4, 1.2235999, 7.9859, -4, 2.797, 3.9559999, -4, 1.2235999, 7.9859, -4, 2.797, 8.2359, -4, 2.797, 3.9559999, -80, 22, 80, 80, 22, 78.3997, 80, 22, 80, -80, 22, 80, -80, 22, 78.3997, 80, 22, 78.3997, 80, 2.6999, 78.3997, -80, -1.2315999, 78.3997, 80, -1.2315999, 78.3997, 80, 2.6999, 78.3997, -80, 2.6999, 78.3997, -80, -1.2315999, 78.3997, -80, 2.6999, 78.3997, 80, 9.1333, 78.3997, -80, 9.1333, 78.3997, -80, 2.6999, 78.3997, 80, 2.6999, 78.3997, 80, 9.1333, 78.3997, 80, 22, 78.3997, -80, 9.1333, 78.3997, 80, 9.1333, 78.3997, 80, 22, 78.3997, -80, 22, 78.3997, -80, 9.1333, 78.3997, -80, -3.0186, 75.5992, 80, -3.0186, -0.0148, 80, -3.0186, 75.5992, -80, -3.0186, 75.5992, -80, -3.0186, -0.0148, 80, -3.0186, -0.0148, -80, -3.0186, 75.5992, 80, -1.2315999, 78.3997, -80, -1.2315999, 78.3997, -80, -3.0186, 75.5992, 80, -3.0186, 75.5992, 80, -1.2315999, 78.3997, 52, -3.0186, 12.7876, 52, 4.1296, -0.0148, 52, 4.1296, 12.7876, 52, -3.0186, 12.7876, 52, -3.0186, -0.0148, 52, 4.1296, -0.0148, 80, 4.1296, -0.0148, 64, 4.1296, 12.7876, 64, 4.1296, -0.0148, 80, 4.1296, -0.0148, 80, 4.1296, 12.7876, 64, 4.1296, 12.7876, 52, -3.0186, 40.792797, 64, 4.1296, 12.7876, 64, 4.1296, 28.790499, 52, -3.0186, 40.792797, 52, -3.0186, 12.7876, 64, 4.1296, 12.7876, 64, 4.1296, 28.790499, 80, 4.1296, 12.7876, 80, 4.1296, 28.790499, 64, 4.1296, 28.790499, 64, 4.1296, 12.7876, 80, 4.1296, 12.7876, 80, -3.0186, 40.792797, 64, 4.1296, 28.790499, 80, 4.1296, 28.790499, 80, -3.0186, 40.792797, 52, -3.0186, 40.792797, 64, 4.1296, 28.790499, 52, 4.1296, 12.7876, 64, 4.1296, -0.0148, 64, 4.1296, 12.7876, 52, 4.1296, 12.7876, 52, 4.1296, -0.0148, 64, 4.1296, -0.0148, 52, 4.1296, 12.7876, 52, -3.0186, 12.7876, 52, -3.0186, 12.7876, 52, 4.1296, 12.7876, 64, 4.1296, 12.7876, 52, -3.0186, 12.7876, 64, 4.1296, 12.7876, 52, 4.1296, 12.7876, 64, 4.1296, 12.7876, -6.6584997, 2.797, 78.3997, -6.6584, 1.2235999, 49.5944, -6.6584997, 2.797, 49.5944, -6.6584997, 2.797, 78.3997, -6.6584, 1.2235999, 78.3997, -6.6584, 1.2235999, 49.5944, -8.7923, -2.3504, 78.3997, -11.059199, -3.0653, 49.5944, -8.7913, -2.3504, 49.5944, -8.7923, -2.3504, 78.3997, -11.059199, -3.0653, 78.3997, -11.059199, -3.0653, 49.5944, -7.3254, -0.9208, 49.5944, -6.6584, 1.2235999, 78.3997, -7.3254, -0.9208, 78.3997, -7.3254, -0.9208, 49.5944, -6.6584, 1.2235999, 49.5944, -6.6584, 1.2235999, 78.3997, -8.7913, -2.3504, 49.5944, -7.3254, -0.9208, 78.3997, -8.7923, -2.3504, 78.3997, -8.7913, -2.3504, 49.5944, -7.3254, -0.9208, 49.5944, -7.3254, -0.9208, 78.3997, -8.7913, -2.3504, 36.792, -1.8585, 2.797, 49.5944, -8.7913, -2.3504, 49.5944, -8.7913, -2.3504, 36.792, -1.8585, 2.797, 36.792, -1.8585, 2.797, 49.5944, -8.7913, -2.3504, 49.5944, -11.059199, -3.0653, 36.792, -8.7913, -2.3504, 36.792, -8.7913, -2.3504, 49.5944, -11.059199, -3.0653, 49.5944, -11.059199, -3.0653, 36.792, -1.8585, 2.797, 78.3997, -6.6584997, 2.797, 49.5944, -1.8585, 2.797, 49.5944, -1.8585, 2.797, 78.3997, -6.6584997, 2.797, 78.3997, -6.6584997, 2.797, 49.5944, -8.7913, -2.3504, 49.5944, -1.8585, 2.797, 49.5944, -7.3254, -0.9208, 49.5944, -7.3254, -0.9208, 49.5944, -1.8585, 2.797, 49.5944, -6.6584, 1.2235999, 49.5944, -6.6584, 1.2235999, 49.5944, -1.8585, 2.797, 49.5944, -6.6584997, 2.797, 49.5944, -11.059199, -3.0653, 36.792, -1.8584, -1.8432, 29.8252, -8.7913, -2.3504, 36.792, -11.059199, -3.0653, 36.792, -1.8584, -3.0651999, 27.990398, -1.8584, -1.8432, 29.8252, -8.7913, -2.3504, 36.792, -1.8584, -1.8432, 29.8252, -1.8585, 2.797, 36.792, 6.6584, 1.2235999, 49.5944, 6.6584997, 2.797, 78.3997, 6.6584997, 2.797, 49.5944, 6.6584, 1.2235999, 49.5944, 6.6584, 1.2235999, 78.3997, 6.6584997, 2.797, 78.3997, 11.059199, -3.0653, 49.5944, 8.7923, -2.3504, 78.3997, 8.7913, -2.3504, 49.5944, 11.059199, -3.0653, 49.5944, 11.059199, -3.0653, 78.3997, 8.7923, -2.3504, 78.3997, 6.6584, 1.2235999, 78.3997, 7.3254, -0.9208, 49.5944, 7.3254, -0.9208, 78.3997, 6.6584, 1.2235999, 78.3997, 6.6584, 1.2235999, 49.5944, 7.3254, -0.9208, 49.5944, 7.3254, -0.9208, 78.3997, 8.7913, -2.3504, 49.5944, 8.7923, -2.3504, 78.3997, 7.3254, -0.9208, 78.3997, 7.3254, -0.9208, 49.5944, 8.7913, -2.3504, 49.5944, 1.8585, 2.797, 49.5944, 8.7913, -2.3504, 36.792, 8.7913, -2.3504, 49.5944, 1.8585, 2.797, 49.5944, 1.8585, 2.797, 36.792, 8.7913, -2.3504, 36.792, 11.059199, -3.0653, 36.792, 8.7913, -2.3504, 49.5944, 8.7913, -2.3504, 36.792, 11.059199, -3.0653, 36.792, 11.059199, -3.0653, 49.5944, 8.7913, -2.3504, 49.5944, 6.6584997, 2.797, 49.5944, 1.8585, 2.797, 78.3997, 1.8585, 2.797, 49.5944, 6.6584997, 2.797, 49.5944, 6.6584997, 2.797, 78.3997, 1.8585, 2.797, 78.3997, 7.3254, -0.9208, 49.5944, 1.8585, 2.797, 49.5944, 8.7913, -2.3504, 49.5944, 6.6584, 1.2235999, 49.5944, 1.8585, 2.797, 49.5944, 7.3254, -0.9208, 49.5944, 6.6584997, 2.797, 49.5944, 1.8585, 2.797, 49.5944, 6.6584, 1.2235999, 49.5944, 1.8584, -1.8432, 29.8252, 11.059199, -3.0653, 36.792, 8.7913, -2.3504, 36.792, 1.8584, -1.8432, 29.8252, 1.8584, -3.0651999, 27.990398, 11.059199, -3.0653, 36.792, 1.8585, 2.797, 36.792, 1.8584, -1.8432, 29.8252, 8.7913, -2.3504, 36.792, -1.8584, -1.8432, 29.8252, 1.8584, -3.0651999, 27.990398, 1.8584, -1.8432, 29.8252, -1.8584, -1.8432, 29.8252, -1.8584, -3.0651999, 27.990398, 1.8584, -3.0651999, 27.990398, -1.8585, 2.797, 36.792, 1.8584, -1.8432, 29.8252, 1.8585, 2.797, 36.792, -1.8585, 2.797, 36.792, -1.8584, -1.8432, 29.8252, 1.8584, -1.8432, 29.8252, -1.8585, 2.797, 49.5944, 1.8585, 2.797, 36.792, 1.8585, 2.797, 49.5944, -1.8585, 2.797, 49.5944, -1.8585, 2.797, 36.792, 1.8585, 2.797, 36.792, -1.8585, 2.797, 78.3997, 1.8585, 2.797, 49.5944, 1.8585, 2.797, 78.3997, -1.8585, 2.797, 78.3997, -1.8585, 2.797, 49.5944, 1.8585, 2.797, 49.5944, 80, -3.0186, 75.5992, 80, 13.9814, -0.0148, 80, 13.9814, 75.5992, 80, -3.0186, 75.5992, 80, -3.0186, -0.0148, 80, 13.9814, -0.0148, 80, -3.0186, 75.5992, 80, 13.9814, 80.5992, 80, -3.0186, 80.5992, 80, -3.0186, 75.5992, 80, 13.9814, 75.5992, 80, 13.9814, 80.5992, -80, -3.0186, -0.0148, -80, 11.9814, 75.5992, -80, 11.9814, -0.0148, -80, -3.0186, -0.0148, -80, -3.0186, 75.5992, -80, 11.9814, 75.5992, -80, 11.9814, 75.5992, -80, -3.0186, 80.5992, -80, 11.9814, 80.5992, -80, 11.9814, 75.5992, -80, -3.0186, 75.5992, -80, -3.0186, 80.5992)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wpw8k"]
-size = Vector3(15, 4, 15)
-
-[sub_resource type="BoxMesh" id="BoxMesh_j2wlq"]
-size = Vector3(15, 4, 15)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_s5h6m"]
-size = Vector3(40, 2, 5)
-
-[sub_resource type="BoxMesh" id="BoxMesh_3aevr"]
-size = Vector3(40, 2, 5)
+size = Vector3(678.18945, 2, 674.874)
 
 [node name="Sandbox" type="Node3D" unique_id=912304136]
 
 [node name="MainGround" type="StaticBody3D" parent="." unique_id=472940167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.115616, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MainGround" unique_id=1922357004]
-shape = SubResource("BoxShape3D_2b6ht")
+[node name="mesh" type="MeshInstance3D" parent="MainGround" unique_id=1918663481]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -40)
+mesh = SubResource("ArrayMesh_y0mvb")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MainGround" unique_id=1758466978]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_y0mvb")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MainGround" unique_id=62606767]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8, -40)
+shape = SubResource("ConcavePolygonShape3D_s2tkr")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2145409938]
 transform = Transform3D(1, 0, 0, 0, 0.47706679, 0.87886703, 0, -0.87886703, 0.47706679, 0, 0, 0)
 
-[node name="TestObstacles" type="Node3D" parent="." unique_id=1557468175]
-
-[node name="STBody" type="StaticBody3D" parent="TestObstacles" unique_id=268519215]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.031431, 0.7498765, -17.270447)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBody" unique_id=1630418974]
-shape = SubResource("BoxShape3D_y0mvb")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBody" unique_id=396880389]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_s2tkr")
-
-[node name="STBody2" type="StaticBody3D" parent="TestObstacles" unique_id=1119996899]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.329702, 2.3601418, -10.655279)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBody2" unique_id=849510145]
-shape = SubResource("BoxShape3D_y0mvb")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBody2" unique_id=1680174244]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_s2tkr")
-
-[node name="STBodySquare" type="StaticBody3D" parent="TestObstacles" unique_id=299830057]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.510942, 4.552712, 0.8208313)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare" unique_id=445025833]
-shape = SubResource("BoxShape3D_s2tkr")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare" unique_id=2000052583]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_1cu7a")
-
-[node name="STBodySquare2" type="StaticBody3D" parent="TestObstacles" unique_id=1058497986]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 27.510942, 5.671868, 13.595426)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare2" unique_id=1886586756]
-shape = SubResource("BoxShape3D_s2tkr")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare2" unique_id=495633831]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_1cu7a")
-
-[node name="STBodySquare3" type="StaticBody3D" parent="TestObstacles" unique_id=1106726769]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 27.510942, 10.439871, 16.742508)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare3" unique_id=329851794]
-shape = SubResource("BoxShape3D_s2tkr")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare3" unique_id=938343165]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_1cu7a")
-
-[node name="STBodySquare4" type="StaticBody3D" parent="TestObstacles" unique_id=1726570423]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 45.923195, 18.750093, 28.407051)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare4" unique_id=1300965330]
-shape = SubResource("BoxShape3D_s2tkr")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare4" unique_id=1542322732]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_1cu7a")
-
-[node name="STBodySquare5" type="StaticBody3D" parent="TestObstacles" unique_id=987558345]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 47.553116, 14.340166, 12.095529)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare5" unique_id=2054708784]
-shape = SubResource("BoxShape3D_1cu7a")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare5" unique_id=1393333778]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_koc8j")
-
-[node name="STBodySquare6" type="StaticBody3D" parent="TestObstacles" unique_id=2073197261]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 47.553116, 33.619705, 12.095529)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare6" unique_id=901587277]
-shape = SubResource("BoxShape3D_1cu7a")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare6" unique_id=2063969464]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_koc8j")
-
-[node name="STBodySquare7" type="StaticBody3D" parent="TestObstacles" unique_id=328119159]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 70.274796, 24.297842, 11.697441)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare7" unique_id=1043486004]
-shape = SubResource("BoxShape3D_koc8j")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare7" unique_id=143894297]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_wpw8k")
-
-[node name="STBodySquare8" type="StaticBody3D" parent="TestObstacles" unique_id=1629711326]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 47.553116, 49.77505, 25.69186)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare8" unique_id=165352488]
-shape = SubResource("BoxShape3D_1cu7a")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare8" unique_id=1266178283]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_koc8j")
-
-[node name="STBodySquare9" type="StaticBody3D" parent="TestObstacles" unique_id=1916398592]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 40.595383, 35.82478, 18.459072)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare9" unique_id=1485385425]
-shape = SubResource("BoxShape3D_wpw8k")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare9" unique_id=1460445822]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_j2wlq")
-
-[node name="STBodySquare10" type="StaticBody3D" parent="TestObstacles" unique_id=1247680818]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 9.563734, 40.817005, 3.1625557)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare10" unique_id=123048523]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-shape = SubResource("BoxShape3D_wpw8k")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare10" unique_id=1502279329]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_j2wlq")
-
-[node name="STBodySquare11" type="StaticBody3D" parent="TestObstacles" unique_id=1443030902]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 9.406395, 35.82478, 18.459072)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare11" unique_id=1544187927]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-shape = SubResource("BoxShape3D_wpw8k")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare11" unique_id=468550321]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_j2wlq")
-
-[node name="STBodySquare13" type="StaticBody3D" parent="TestObstacles" unique_id=1527103928]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 25.412876, 41.718586, 48.173824)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare13" unique_id=986916649]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-shape = SubResource("BoxShape3D_wpw8k")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare13" unique_id=1540659472]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_j2wlq")
-
-[node name="STBodySquare14" type="StaticBody3D" parent="TestObstacles" unique_id=1757533082]
-transform = Transform3D(-1, 8.7422784e-08, 0, 3.821371e-15, 4.3711392e-08, -1.0000001, -8.742278e-08, -1.0000001, -4.3711392e-08, 19.207636, 49.77505, 39.291954)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare14" unique_id=1630617070]
-shape = SubResource("BoxShape3D_1cu7a")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare14" unique_id=497424987]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_koc8j")
-
-[node name="STBodySquare15" type="StaticBody3D" parent="TestObstacles" unique_id=1804046571]
-transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, -3.7890015, 35.82478, 47.0331)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare15" unique_id=1924432185]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-shape = SubResource("BoxShape3D_wpw8k")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare15" unique_id=578532275]
-transform = Transform3D(1, 0, 0, 0, 1.0000002, 0, 0, 0, 1.0000002, 3.238617, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_j2wlq")
-
-[node name="STBodySquare16" type="StaticBody3D" parent="TestObstacles" unique_id=729010490]
-transform = Transform3D(-0.010995329, 0.99993956, -4.3708745e-08, 0, -4.371139e-08, -1, -0.99993956, -0.010995329, 4.806211e-10, 20.280567, 42.42428, 26.435665)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBodySquare16" unique_id=1676090484]
-shape = SubResource("BoxShape3D_1cu7a")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBodySquare16" unique_id=2053959199]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_koc8j")
-
-[node name="HalfPipe" type="Node3D" parent="TestObstacles" unique_id=1832890016]
-transform = Transform3D(-0.70710665, 0, -0.70710653, 0, 1, 0, 0.70710653, 0, -0.70710665, 68.71126, 0, -11.750771)
-rotation_order = 1
-
-[node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=763997733]
-transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipe" unique_id=492363375]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe/HalfPipe" unique_id=21687240]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipeMiddle" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=1654387918]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 1.4755874, -0.8098717)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipeMiddle" unique_id=1229579956]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe/HalfPipeMiddle" unique_id=918556170]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe2" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=437746372]
-transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, 0, 3.335198, -2.8111534)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipe2" unique_id=14625959]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe/HalfPipe2" unique_id=887171648]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe" unique_id=58553889]
-transform = Transform3D(0.99999994, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.9999999, -4.3711385e-08, 0, 8.446268, -3.9556847)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe/HalfPipe3" unique_id=50574886]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe/HalfPipe3" unique_id=1188286835]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="STBody3" type="StaticBody3D" parent="TestObstacles" unique_id=423647609]
-transform = Transform3D(0.8660253, 0.49999997, 0, -0.49999997, 0.8660253, 0, 0, 0, 1, 62.444065, -9.140995, -17.270447)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/STBody3" unique_id=366800426]
-shape = SubResource("BoxShape3D_y0mvb")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/STBody3" unique_id=1017949436]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_s2tkr")
-
-[node name="HalfPipe2" type="Node3D" parent="TestObstacles" unique_id=1666237429]
-transform = Transform3D(0, 0, -0.9999997, 0, 1, 0, 0.9999997, 0, 0, 83.50879, 0, -47.773075)
-rotation_order = 1
-
-[node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=1446519358]
-transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe" unique_id=809732320]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe" unique_id=157678797]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipeMiddle" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=891321281]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 1.4755874, -0.8098717)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipeMiddle" unique_id=261209154]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipeMiddle" unique_id=1831369118]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe2" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=549190215]
-transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, 0, 3.335198, -2.8111534)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe2" unique_id=1494494867]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe2" unique_id=625407774]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe2" unique_id=1490174040]
-transform = Transform3D(0.9999998, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999998, 0, 6.9462986, -5.337227)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe2/HalfPipe3" unique_id=1672274136]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe2/HalfPipe3" unique_id=1275746996]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="Node3D" parent="TestObstacles" unique_id=1923136840]
-transform = Transform3D(0.99999964, 0, 4.371137e-08, 0, 1, 0, -4.371137e-08, 0, 0.99999964, 59.72489, 0, -71.72043)
-rotation_order = 1
-
-[node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe3" unique_id=1670356001]
-transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe3/HalfPipe" unique_id=1670452400]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe3/HalfPipe" unique_id=1982565843]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipeMiddle" type="StaticBody3D" parent="TestObstacles/HalfPipe3" unique_id=1622789228]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 1.4755874, -0.8098717)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe3/HalfPipeMiddle" unique_id=356026844]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe3/HalfPipeMiddle" unique_id=1735755243]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe2" type="StaticBody3D" parent="TestObstacles/HalfPipe3" unique_id=161174711]
-transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, 0, 3.335198, -2.8111534)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe3/HalfPipe2" unique_id=881173652]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe3/HalfPipe2" unique_id=1401595898]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe3" unique_id=965131503]
-transform = Transform3D(0.9999998, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999998, 0, 6.9462986, -5.337227)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe3/HalfPipe3" unique_id=2017710155]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe3/HalfPipe3" unique_id=1904459860]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe4" type="Node3D" parent="TestObstacles" unique_id=1844979629]
-transform = Transform3D(0.99999964, 0, 4.371137e-08, 0, 1, 0, -4.371137e-08, 0, 0.99999964, 19.724892, 0, -71.72043)
-rotation_order = 1
-
-[node name="HalfPipe" type="StaticBody3D" parent="TestObstacles/HalfPipe4" unique_id=1161707661]
-transform = Transform3D(1, 0, 0, 0, 0.90630764, -0.4226182, 0, 0.4226182, 0.90630764, 0, 0.5698204, 1.3631)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe4/HalfPipe" unique_id=523192549]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe4/HalfPipe" unique_id=673001776]
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipeMiddle" type="StaticBody3D" parent="TestObstacles/HalfPipe4" unique_id=1397239586]
-transform = Transform3D(1, 0, 0, 0, 0.7071067, -0.7071067, 0, 0.7071067, 0.7071067, 0, 1.4755874, -0.8098717)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe4/HalfPipeMiddle" unique_id=509104854]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe4/HalfPipeMiddle" unique_id=1599167761]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe2" type="StaticBody3D" parent="TestObstacles/HalfPipe4" unique_id=737907513]
-transform = Transform3D(1, 0, 0, 0, 0.4226182, -0.90630776, 0, 0.90630776, 0.4226182, 0, 3.335198, -2.8111534)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe4/HalfPipe2" unique_id=1987357609]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe4/HalfPipe2" unique_id=1012986949]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
-[node name="HalfPipe3" type="StaticBody3D" parent="TestObstacles/HalfPipe4" unique_id=273008559]
-transform = Transform3D(0.9999998, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999998, 0, 6.9462986, -5.337227)
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="TestObstacles/HalfPipe4/HalfPipe3" unique_id=1694573455]
-shape = SubResource("BoxShape3D_s5h6m")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="TestObstacles/HalfPipe4/HalfPipe3" unique_id=1403722474]
-transform = Transform3D(1, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0)
-material_override = SubResource("StandardMaterial3D_y0mvb")
-mesh = SubResource("BoxMesh_3aevr")
-
 [node name="CameraGimbal" type="Node3D" parent="." unique_id=197358339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.14254, 0, 0)
+visible = false
 script = ExtResource("3_y0mvb")
 
-[node name="Camera3D" type="Camera3D" parent="CameraGimbal" unique_id=264216580]
-transform = Transform3D(1, 0, 0, 0, 0.9520974, 0.30579495, 0, -0.30579495, 0.9520974, 1.2452397, 6.5846405, 9.576578)
-
-[node name="Character" parent="." unique_id=12753772 instance=ExtResource("4_1cu7a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3922005, 0)
+[node name="Camera3D" type="Camera3D" parent="CameraGimbal" unique_id=854214024]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.351653, 11.072658)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1242344087]
 
 [node name="Label" type="Label" parent="UI" unique_id=37534882]
-offset_right = 40.0
+offset_left = 484.0
+offset_right = 524.0
 offset_bottom = 23.0
 text = "0"
+
+[node name="DeathZone" type="Area3D" parent="." unique_id=834457421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.3290367, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DeathZone" unique_id=664473455]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.7378674, 0)
+shape = SubResource("BoxShape3D_wpw8k")
+
+[node name="Network" type="Node" parent="." unique_id=826304298]
+
+[node name="CharacterNew" parent="Network" unique_id=1284234206 instance=ExtResource("3_s2tkr")]

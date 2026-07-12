@@ -5,9 +5,9 @@ class_name NewCharacter
 #Variables
 #grounded
 var gnd_max_speed = 20
-var gnd_maximum_speed = 35
+#var gnd_maximum_speed = 35
 var gnd_acceleration = 1
-var gnd_spd_cap_decelaration = 0.2
+var gnd_spd_cap_decelaration = 0.1
 var gnd_decelaration = 2
 var gnd_rotation = 0.5
 
@@ -41,17 +41,30 @@ var previous_state = "null"
 ##Inventory
 @export
 var paint_weapon : PaintWeapon
+@export
+var movement_ride : MovementRide
 
 #Refs
 @onready
-var Camera = $"../CameraGimbal"
+var Camera = $"../../CameraGimbal"
 @onready
 var GroundRay = $Rays/Ground 
 @onready
+var AlignFloorRay = $Rays/AlignFloor
+@onready
 var Coll = $Colls/CustomColl
-var CollOffset := Vector3(0,0,0)
 @onready
 var Anim = $Character/AnimationTree
+
+
+##Multiplayer
+# Set by the authority, synchronized on spawn.
+@export var player := 1 :
+	set(id):
+		player = id
+		# Give authority over the player input to the appropriate peer.
+		set_multiplayer_authority(id)
+
 
 func set_state(new_state):
 	if previous_state!=null:
@@ -73,6 +86,7 @@ func _enter_state(new_state, old_state):
 			if old_state == "Falling":
 				Anim.set("parameters/conditions/Jump", false)
 				Anim.set("parameters/conditions/FastFall", false)
+				movement_ride.WhenLanding()
 			else:
 				Anim.set("parameters/conditions/Moving", true)
 				
@@ -88,6 +102,7 @@ func _enter_state(new_state, old_state):
 func _init() -> void:
 	motion_mode = MOTION_MODE_FLOATING
 	floor_snap_length = 0.5
+	
 
 func _exit_state(old_state,new_state):
 	match old_state:
@@ -112,18 +127,19 @@ func SkateIdle():
 	
 	if Input.is_action_just_pressed("jump") and GroundRay.is_colliding():
 		state = "Jumping"
+	
+	if Input.is_action_pressed("spray_boost") and paint_weapon.GroundUse() or Input.is_action_pressed("fast_fall"):
+		state = "Skating"
+		direction = quaternion
+		speed = 18
 
 func Skating():
 	##State Behavior
-	if input_dir:
+	if input_dir or Input.is_action_pressed("fast_fall"):
 		if !Input.is_action_pressed("fast_fall") and !Input.is_action_pressed("spray_boost"):
-			var max_speed = gnd_max_speed
-			var decelaration = gnd_acceleration
-			if speed>gnd_max_speed-0.1:
-				decelaration = gnd_spd_cap_decelaration
-			speed = move_toward(speed, max_speed, decelaration)
-		elif speed>gnd_maximum_speed:
-			speed = move_toward(speed, gnd_maximum_speed, gnd_spd_cap_decelaration)
+			speed = move_toward(speed, gnd_max_speed*input_cam_dir.length(), gnd_acceleration)
+		elif speed>gnd_max_speed:
+			speed = move_toward(speed, gnd_max_speed, gnd_spd_cap_decelaration)
 	else: speed = move_toward(speed, 0, gnd_acceleration)
 	
 	velocity = basis * (Vector3(0,0,speed) * Vector3.FORWARD)
@@ -136,13 +152,18 @@ func Skating():
 	global_transform.basis = Basis((direction_x * direction).normalized())
 	
 	##Half States
-	if Input.is_action_pressed("fast_fall"): Anim.set("parameters/conditions/FastFall", true)
-	else: Anim.set("parameters/conditions/FastFall", false)
 	
-	if Input.is_action_pressed("spray_boost") and paint_weapon.GroundUse():
-		Anim.set("parameters/conditions/GroundUse", true)
-	else:
-		Anim.set("parameters/conditions/GroundUse", false)
+	var g_actions = Anim.get("parameters/Rolling/GroundActions/blend_amount")
+	
+	Anim.set("parameters/Rolling/GroundActions/blend_amount",move_toward(g_actions,float(Input.is_action_pressed("spray_boost") and paint_weapon.GroundUse())-float(Input.is_action_pressed("fast_fall")),0.1))
+	
+	#if Input.is_action_pressed("fast_fall"): Anim.set("parameters/conditions/FastFall", true)
+	#else: Anim.set("parameters/conditions/FastFall", false)
+	#
+	#if Input.is_action_pressed("spray_boost") and paint_weapon.GroundUse():
+		#Anim.set("parameters/conditions/GroundUse", true)
+	#else:
+		#Anim.set("parameters/conditions/GroundUse", false)
 	
 	##Change States
 	if not GroundRay.is_colliding() or direction_x.dot(Quaternion.IDENTITY) < 0.8:
@@ -160,18 +181,16 @@ func Falling():
 	if (velocity*speed).normalized()!=Vector3.ZERO:
 		air_direction = Basis.looking_at((velocity*speed).normalized(),Vector3.UP).get_rotation_quaternion()
 	
-	direction = direction.slerp(Quaternion(Vector3.UP,input_cam_dir.angle()).normalized(),6/max(speed,10))
+	direction = direction.slerp(Quaternion(Vector3.UP,input_cam_dir.angle()).normalized(),1/max(speed,10))
 	
 	global_transform.basis = Basis((direction_x * direction).normalized())
 	
 	velocity.y += get_gravity().y * delta * g_multiplier
 	
 	##To States
-	if is_on_ground():
+	if Input.is_action_pressed("jump") and GroundRay.is_colliding() and direction_x!=Quaternion.IDENTITY:
 		last_wall_normal = GroundRay.get_collision_normal()
-	
-	if Input.is_action_pressed("jump") and is_on_ground():
-		velocity+=last_wall_normal*(speed/9)
+		velocity+=last_wall_normal*(speed/200)
 	
 	if velocity.y<0:
 		g_multiplier = 2
@@ -187,7 +206,7 @@ func Falling():
 	else:
 		Anim.set("parameters/conditions/FastFall", false)
 	
-	if is_on_ground() and velocity.y<0:
+	if GroundRay.is_colliding() and velocity.y<0:
 		## compare rotation and direction quats
 		## to big of a change go fakie
 		if rad_to_deg(air_direction.angle_to(quaternion))>140:
@@ -221,10 +240,17 @@ func collision_custom_code():
 
 func universal_rotation():
 	if input_dir.length()>0.5:
-		direction = direction.slerp(Quaternion(Vector3.UP,input_cam_dir.angle()).normalized(),6/max(abs(speed),10))
+		direction = direction.slerp(Quaternion(Vector3.UP,input_cam_dir.angle()).normalized(),1/max(abs(speed),10))
 	
 	#Rotate with is_on_wall normals but just after like a direction rotation
-	if is_on_ground() and get_wall_normal() != Vector3.ZERO:
+	AlignFloorRay.position = position
+	if !is_on_ground():
+		if AlignFloorRay.is_colliding():
+			if AlignFloorRay.get_collision_normal() == Vector3.UP:
+				direction_x = direction_x.slerp(Quaternion.IDENTITY,0.1)
+	else:
+		direction_x = direction_x.slerp(Quaternion.IDENTITY,0.1)
+		if get_wall_normal() != Vector3.ZERO and Quaternion(Vector3.UP,get_wall_normal()).angle_to(direction_x)<1.5:
 			var wall_alignment = Quaternion(Vector3.UP, get_wall_normal())
 			if direction_x != wall_alignment and !Input.is_action_pressed("grind"):
 				velocity+=GroundRay.get_collision_normal()
@@ -242,7 +268,7 @@ func _physics_process(_delta: float) -> void:
 	
 	
 	##DEBUG
-	$UI/Debug/Label.text = str(state) + "\n" + previous_state + "\nspeed" + str(speed) + "\nvely" + str(velocity.y) + "\n" + str(g_multiplier) + "\n" + str((rotation.x))
+	#$"../UI/Debug/Label".text = str(state) + "\n" + previous_state + "\nspeed" + str(speed) + "\nvely" + str(velocity.y) + "\n" + str(g_multiplier) + "\n" + str((rotation.x))
 	
 	delta = _delta
 	
@@ -263,4 +289,16 @@ func _physics_process(_delta: float) -> void:
 	paint_weapon.input_cam_dir = input_cam_dir
 	paint_weapon.item_process(delta)
 	
+	movement_ride.fastfall = Input.is_action_pressed("fast_fall")
+	movement_ride.jump = Input.is_action_pressed("jump")
+	movement_ride.spray_button = Input.is_action_pressed("spray_boost")
+	movement_ride.input_dir = input_dir
+	movement_ride.input_cam_dir = input_cam_dir
+	movement_ride.ride_process(delta)
+	
 	move_and_slide()
+
+
+func _on_custom_coll_area_entered(area: Area3D) -> void:
+	if area.name == "DeathZone":
+		get_tree().reload_current_scene()
